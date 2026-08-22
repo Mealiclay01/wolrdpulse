@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import BrandLogo from "@/components/BrandLogo";
+import LanguageSelector from "@/components/LanguageSelector";
 import { Github, Terminal, Heart, ArrowLeft } from "lucide-react";
 
 interface NavbarProps {
@@ -29,20 +30,22 @@ export default function Navbar({ onConnectClick, showBackToHome, t, locale }: Na
               href={`/${locale}/features`} 
               className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
             >
-              {t.features}
+              {t?.features || "Features"}
             </Link>
             <Link 
               href={`/${locale}/developer`} 
               className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors flex items-center gap-1"
             >
               <Heart size={12} className="text-rose-500 fill-rose-500/30" />
-              {t.sponsor}
+              {t?.sponsor || "Sponsor"}
             </Link>
           </nav>
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LanguageSelector currentLocale={locale} />
+
           <a
             href="https://github.com/Mealiclay01/wolrdpulse"
             target="_blank"
@@ -62,7 +65,7 @@ export default function Navbar({ onConnectClick, showBackToHome, t, locale }: Na
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold hover:opacity-90 transition-all shadow-sm cursor-pointer"
             >
               <Terminal size={13} />
-              <span>{t.connectAgent}</span>
+              <span>{t?.connectAgent || "Connect Agent"}</span>
             </button>
           ) : (
             <Link
@@ -70,7 +73,7 @@ export default function Navbar({ onConnectClick, showBackToHome, t, locale }: Na
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold hover:opacity-90 transition-all shadow-sm"
             >
               <ArrowLeft size={13} />
-              <span>{t.backHome}</span>
+              <span>{t?.backHome || "Back to Home"}</span>
             </Link>
           )}
         </div>
