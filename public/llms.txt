@@ -1,42 +1,30 @@
-# WolrdPulse — Real-Time DevOps & Cloud Telemetry for AI Agents
+# WolrdPulse
+> Real-Time Cloud Telemetry & DevOps Model Context Protocol (MCP) Server for AI Coding Agents.
 
-> WolrdPulse is an open-source Model Context Protocol (MCP) server that provides autonomous AI agents (Claude Desktop, Cursor, Windsurf) with real-time global cloud status, edge network latency, DoH DNS queries, and SSL/TLS certificate inspection.
+## Summary
+WolrdPulse is an open-source Model Context Protocol (MCP) server streaming live cloud outages (AWS, Vercel, GitHub), DNS-over-HTTPS queries (Cloudflare 1.1.1.1), SSL/TLS certificate verification, and synthetic edge latency probes. It enables autonomous AI agents (Claude Desktop, Cursor, Windsurf) to verify live infrastructure health before writing or refactoring code.
 
-- Website: https://wolrdpulse.app
-- Documentation & Features: https://wolrdpulse.app/features
-- Developer & Sponsor: https://wolrdpulse.app/developer
-- GitHub Repository: https://github.com/Mealiclay01/wolrdpulse
-- Author: Anas Rhimi (https://anasrhimi.tech)
-- License: MIT Open Source
+## Endpoints
+- Homepage: https://wolrdpulse.app
+- Remote SSE Endpoint: https://wolrdpulse.app/sse
+- Public MCP Info: https://wolrdpulse.app/api/mcp
+- Cloud Status API: https://wolrdpulse.app/api/status
+- DNS DoH API: https://wolrdpulse.app/api/dns?name={domain}&type={type}
+- SSL Inspector API: https://wolrdpulse.app/api/ssl?domain={domain}
+- Edge Latency Ping API: https://wolrdpulse.app/api/ping?url={url}
 
-## MCP Connection Endpoint
-- Server-Sent Events (SSE) URL: `https://wolrdpulse.app/sse`
-- JSON-RPC Endpoint: `https://wolrdpulse.app/api/mcp`
-- Stdio CLI: `node bin/cli.mjs`
+## Supported Languages (hreflang)
+- English: https://wolrdpulse.app/en
+- Arabic: https://wolrdpulse.app/ar
+- French: https://wolrdpulse.app/fr
+- German: https://wolrdpulse.app/de
+- Russian: https://wolrdpulse.app/ru
+- Chinese: https://wolrdpulse.app/zh
+- Korean: https://wolrdpulse.app/ko
+- Japanese: https://wolrdpulse.app/ja
+- Spanish: https://wolrdpulse.app/es
 
-## Core MCP Tools Provided
-
-1. `get_cloud_status`
-   - Description: Fetches live operational status and incident reports for AWS, Cloudflare, GitHub, OpenAI, Anthropic, Vercel, Supabase, NPM, and Datadog.
-   - Arguments: `provider` (optional string, e.g. "aws", "vercel", "github")
-
-2. `inspect_ssl`
-   - Description: Connects via native TLS socket to inspect SSL certificate validity, issuer chain, fingerprint, and remaining days until expiration.
-   - Arguments: `domain` (required string, e.g. "api.github.com")
-
-3. `query_dns`
-   - Description: Resolves DNS records (A, AAAA, CNAME, MX, TXT, NS, CAA) using Cloudflare DNS-over-HTTPS (1.1.1.1).
-   - Arguments: `domain` (required string), `recordType` (optional string, default "A")
-
-4. `ping_endpoint`
-   - Description: Performs synthetic HTTP/HTTPS edge requests to measure TTFB latency, status codes, and headers.
-   - Arguments: `url` (required string)
-
-5. `get_tech_pulse`
-   - Description: Aggregates latest major open-source releases (Kubernetes, Docker, Bun, Next.js, Rust, Go) and trending repositories.
-
-## Configuration for Claude Desktop & Cursor
-Add to your `claude_desktop_config.json` or `cursor_mcp.json`:
+## MCP Server Installation
 ```json
 {
   "mcpServers": {
@@ -46,3 +34,5 @@ Add to your `claude_desktop_config.json` or `cursor_mcp.json`:
   }
 }
 ```
+Or via CLI:
+`npx -y github:Mealiclay01/wolrdpulse`
