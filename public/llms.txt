@@ -1,0 +1,48 @@
+# WolrdPulse — Real-Time DevOps & Cloud Telemetry for AI Agents
+
+> WolrdPulse is an open-source Model Context Protocol (MCP) server that provides autonomous AI agents (Claude Desktop, Cursor, Windsurf) with real-time global cloud status, edge network latency, DoH DNS queries, and SSL/TLS certificate inspection.
+
+- Website: https://wolrdpulse.app
+- Documentation & Features: https://wolrdpulse.app/features
+- Developer & Sponsor: https://wolrdpulse.app/developer
+- GitHub Repository: https://github.com/Mealiclay01/wolrdpulse
+- Author: Anas Rhimi (https://anasrhimi.tech)
+- License: MIT Open Source
+
+## MCP Connection Endpoint
+- Server-Sent Events (SSE) URL: `https://wolrdpulse.app/sse`
+- JSON-RPC Endpoint: `https://wolrdpulse.app/api/mcp`
+- Stdio CLI: `node bin/cli.mjs`
+
+## Core MCP Tools Provided
+
+1. `get_cloud_status`
+   - Description: Fetches live operational status and incident reports for AWS, Cloudflare, GitHub, OpenAI, Anthropic, Vercel, Supabase, NPM, and Datadog.
+   - Arguments: `provider` (optional string, e.g. "aws", "vercel", "github")
+
+2. `inspect_ssl`
+   - Description: Connects via native TLS socket to inspect SSL certificate validity, issuer chain, fingerprint, and remaining days until expiration.
+   - Arguments: `domain` (required string, e.g. "api.github.com")
+
+3. `query_dns`
+   - Description: Resolves DNS records (A, AAAA, CNAME, MX, TXT, NS, CAA) using Cloudflare DNS-over-HTTPS (1.1.1.1).
+   - Arguments: `domain` (required string), `recordType` (optional string, default "A")
+
+4. `ping_endpoint`
+   - Description: Performs synthetic HTTP/HTTPS edge requests to measure TTFB latency, status codes, and headers.
+   - Arguments: `url` (required string)
+
+5. `get_tech_pulse`
+   - Description: Aggregates latest major open-source releases (Kubernetes, Docker, Bun, Next.js, Rust, Go) and trending repositories.
+
+## Configuration for Claude Desktop & Cursor
+Add to your `claude_desktop_config.json` or `cursor_mcp.json`:
+```json
+{
+  "mcpServers": {
+    "worldpulse": {
+      "url": "https://wolrdpulse.app/sse"
+    }
+  }
+}
+```

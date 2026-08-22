@@ -1,10 +1,29 @@
 {
   "name": "wolrdpulse",
   "version": "1.0.0",
+  "description": "Real-time cloud infrastructure status and DevOps MCP server for AI coding agents",
+  "type": "module",
+  "main": "bin/cli.mjs",
   "bin": {
-    "wolrdpulse": "./bin/cli.mjs"
+    "wolrdpulse": "bin/cli.mjs"
   },
-  "private": true,
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "cursor",
+    "devops",
+    "cloud-status",
+    "telemetry",
+    "ssl-checker",
+    "dns-resolver"
+  ],
+  "author": "Anas Rhimi (https://anasrhimi.tech)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mealiclay01/wolrdpulse"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,6 +32,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.0",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
     "next": "^16.3.2",

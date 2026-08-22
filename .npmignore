@@ -1,0 +1,12 @@
+.next/
+.vercel/
+node_modules/
+app/
+components/
+public/
+scripts/
+.env*
+*.tsbuildinfo
+tsconfig.json
+tailwind.config.ts
+postcss.config.mjs

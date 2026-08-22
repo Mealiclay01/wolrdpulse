@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -203,8 +204,8 @@ export default function DeveloperPage() {
 
       {/* Standard Global Footer */}
       <footer className="max-w-4xl mx-auto border-t border-[var(--border)] pt-8 pb-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--muted-foreground)]">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-[var(--foreground)]">WolrdPulse</span>
+        <div className="flex items-center gap-3">
+          <BrandLogo size="sm" />
           <span>© {new Date().getFullYear()}</span>
         </div>
         <div className="flex items-center gap-6">

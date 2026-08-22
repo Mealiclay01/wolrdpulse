@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
+import BrandLogo from "@/components/BrandLogo";
 import CloudStatusGrid from "@/components/CloudStatusGrid";
 import SslInspector from "@/components/SslInspector";
 import DnsInspector from "@/components/DnsInspector";
@@ -252,12 +253,104 @@ export default function FeaturesPage() {
             </div>
           </section>
 
+          {/* AEO / FAQ Section (Optimized for AI Overviews & Answer Engines) */}
+          <section className="space-y-6 rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 sm:p-10">
+            <div className="space-y-2">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Frequently Asked Questions</h2>
+              <p className="text-sm text-[var(--muted-foreground)]">
+                Direct answers to common questions about WolrdPulse, MCP integration, and live telemetry.
+              </p>
+            </div>
+
+            <div className="space-y-6 pt-2">
+              <div className="space-y-2 border-b border-[var(--border)] pb-5">
+                <h3 className="text-base font-semibold text-[var(--foreground)]">
+                  How does WolrdPulse MCP eliminate AI hallucinations during cloud outages?
+                </h3>
+                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                  WolrdPulse provides autonomous coding agents (Claude Desktop, Cursor, Windsurf) with live telemetry from AWS, Vercel, and GitHub via the Model Context Protocol (MCP). When a build fails due to a third-party cloud degradation, the agent queries WolrdPulse, detects the active incident in sub-50ms, and notifies the developer immediately instead of rewriting functional code.
+                </p>
+              </div>
+
+              <div className="space-y-2 border-b border-[var(--border)] pb-5">
+                <h3 className="text-base font-semibold text-[var(--foreground)]">
+                  How do I connect Claude Desktop or Cursor to WolrdPulse?
+                </h3>
+                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                  Add the SSE endpoint <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)]">https://wolrdpulse.app/sse</code> to your <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)]">claude_desktop_config.json</code> or <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)]">cursor_mcp.json</code> under the <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--foreground)]">mcpServers</code> block. No API keys or authentication are required.
+                </p>
+              </div>
+
+              <div className="space-y-2 border-b border-[var(--border)] pb-5">
+                <h3 className="text-base font-semibold text-[var(--foreground)]">
+                  What makes WolrdPulse different from standard uptime monitors?
+                </h3>
+                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                  Traditional uptime checkers only alert humans via email or Slack. WolrdPulse formats cloud telemetry into native JSON-RPC Model Context Protocol tools that AI models can autonomously invoke during agentic pair programming to check network sockets, TLS certificates, and DNS records.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-base font-semibold text-[var(--foreground)]">
+                  Which DNS and SSL verification tools are supported?
+                </h3>
+                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+                  WolrdPulse supports live DNS-over-HTTPS (DoH) queries for A, AAAA, CNAME, MX, TXT, NS, and CAA records via Cloudflare 1.1.1.1, as well as native TLS socket handshakes to verify SSL certificate issuer chains and expiration dates.
+                </p>
+              </div>
+            </div>
+
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "How does WolrdPulse MCP eliminate AI hallucinations during cloud outages?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "WolrdPulse provides autonomous coding agents (Claude Desktop, Cursor, Windsurf) with live telemetry from AWS, Vercel, and GitHub via Model Context Protocol (MCP). When a build fails due to a third-party cloud degradation, the agent queries WolrdPulse, detects the incident in sub-50ms, and notifies the developer immediately instead of rewriting functional code."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How do I connect Claude Desktop or Cursor to WolrdPulse?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Add the SSE endpoint https://wolrdpulse.app/sse to your claude_desktop_config.json or cursor_mcp.json under the mcpServers block. No API keys or authentication are required."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What makes WolrdPulse different from standard uptime monitors?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Traditional uptime checkers only alert humans via email or Slack. WolrdPulse formats cloud telemetry into native JSON-RPC Model Context Protocol tools that AI models can autonomously invoke during agentic pair programming."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Which DNS and SSL verification tools are supported?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "WolrdPulse supports live DNS-over-HTTPS (DoH) queries for A, AAAA, CNAME, MX, TXT, NS, and CAA records via Cloudflare 1.1.1.1, as well as native TLS socket handshakes to verify SSL certificate issuer chains and expiration dates."
+                      }
+                    }
+                  ]
+                })
+              }}
+            />
+          </section>
+
         </main>
 
         {/* Global Footer */}
         <footer className="max-w-6xl mx-auto border-t border-[var(--border)] pt-8 pb-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--muted-foreground)]">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-[var(--foreground)]">WolrdPulse</span>
+          <div className="flex items-center gap-3">
+            <BrandLogo size="sm" />
             <span>© {new Date().getFullYear()}</span>
           </div>
           <div className="flex items-center gap-6">

@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
+import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -55,6 +56,20 @@ export default function TermsPage() {
           </p>
         </div>
       </main>
+
+      {/* Standard Global Footer */}
+      <footer className="max-w-3xl mx-auto border-t border-[var(--border)] mt-16 pt-8 pb-12 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--muted-foreground)]">
+        <div className="flex items-center gap-3">
+          <BrandLogo size="sm" />
+          <span>© {new Date().getFullYear()}</span>
+        </div>
+        <div className="flex items-center gap-6">
+          <Link href="/features" className="hover:text-[var(--foreground)] transition-colors">Features</Link>
+          <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+          <Link href="/developer" className="hover:text-[var(--foreground)] transition-colors">Developer</Link>
+          <a href="https://anasrhimi.tech" target="_blank" rel="noreferrer" className="text-[var(--foreground)] hover:underline">anasrhimi.tech</a>
+        </div>
+      </footer>
     </div>
   );
 }

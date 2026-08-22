@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Github, Terminal, Heart, ArrowLeft, ExternalLink } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
+import { Github, Terminal, Heart, ArrowLeft } from "lucide-react";
 
 interface NavbarProps {
   onConnectClick?: () => void;
@@ -14,20 +15,10 @@ export default function Navbar({ onConnectClick, showBackToHome }: NavbarProps) 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-[var(--border)] px-4 sm:px-6 py-3.5 transition-all">
       <div className="max-w-6xl mx-auto w-full flex items-center justify-between">
-        {/* Left: Logo & Brand */}
+        {/* Left: Brand Logo */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-lg bg-[var(--foreground)] text-[var(--background)] flex items-center justify-center font-bold text-xs tracking-wider shadow-sm transition-transform group-hover:scale-105">
-              W
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold tracking-tight text-sm leading-none">
-                WolrdPulse
-              </span>
-              <span className="text-[10px] font-mono text-[var(--muted-foreground)] border border-[var(--border)] px-1.5 py-0.5 rounded">
-                v1.0
-              </span>
-            </div>
+          <Link href="/" className="group flex items-center">
+            <BrandLogo size="md" />
           </Link>
 
           {/* Desktop Navigation Links */}

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
+import BrandLogo from "@/components/BrandLogo";
 import AgentSessionDemo from "@/components/AgentSessionDemo";
 import { ToastProvider } from "@/components/Toast";
 import Link from "next/link";
@@ -265,8 +266,8 @@ export default function Home() {
 
           {/* Standard Global Footer */}
           <footer className="border-t border-[var(--border)] pt-8 pb-12 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--muted-foreground)]">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-[var(--foreground)]">WolrdPulse</span>
+            <div className="flex items-center gap-3">
+              <BrandLogo size="sm" />
               <span>© {new Date().getFullYear()}</span>
             </div>
             <div className="flex flex-wrap items-center gap-6">
