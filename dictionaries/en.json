@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | Real-Time Telemetry & DevOps MCP Server",
+    "description": "WolrdPulse is an open-source Model Context Protocol (MCP) server streaming live cloud outages (AWS, Vercel, GitHub), DNS DoH queries, and SSL certificate verification.",
+    "keywords": [
+      "MCP Server",
+      "Model Context Protocol",
+      "DevOps Telemetry"
+    ]
+  },
+  "nav": {
+    "features": "Features",
+    "sponsor": "Sponsor Developer",
+    "connectAgent": "Connect Agent",
+    "backHome": "Back to Home"
+  },
+  "home": {
+    "openSource": "Open Source on GitHub",
+    "headline": "Real-Time Cloud Telemetry for AI Agents",
+    "subHeadline": "Stop AI hallucinations. Give Claude and Cursor instant access to global cloud outages, DNS resolution, and SSL verification via Model Context Protocol.",
+    "exploreFeatures": "Explore Live Tools & Features",
+    "quickStart": "Quick Start"
+  },
+  "features": {
+    "title": "Live Cloud Telemetry Features",
+    "subtitle": "Discover the powerful DevOps capabilities WolrdPulse exposes to AI coding agents.",
+    "faqTitle": "Frequently Asked Questions",
+    "faq1Q": "What is WolrdPulse?",
+    "faq1A": "WolrdPulse is an open-source Model Context Protocol (MCP) server that provides real-time DevOps telemetry to AI agents.",
+    "faq2Q": "How do I connect Claude Desktop?",
+    "faq2A": "Add npx wolrdpulse to your claude_desktop_config.json file to instantly equip Claude with live DevOps context."
+  },
+  "footer": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "developer": "Developer"
+  }
+}

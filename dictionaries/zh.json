@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | 实时遥测与 DevOps MCP 服务器",
+    "description": "开源模型上下文协议 (MCP) 服务器，为 AI 代理提供云中断、DNS 和 SSL 验证的实时数据。",
+    "keywords": [
+      "MCP 服务器",
+      "DevOps 遥测",
+      "云中断"
+    ]
+  },
+  "nav": {
+    "features": "功能",
+    "sponsor": "赞助开发者",
+    "connectAgent": "连接代理",
+    "backHome": "返回首页"
+  },
+  "home": {
+    "openSource": "GitHub 开源",
+    "headline": "为 AI 代理提供实时云遥测",
+    "subHeadline": "消除 AI 幻觉。通过 MCP 为 Claude 和 Cursor 提供全球云中断的即时访问。",
+    "exploreFeatures": "探索实时工具",
+    "quickStart": "快速开始"
+  },
+  "features": {
+    "title": "实时云遥测功能",
+    "subtitle": "探索 WolrdPulse 为 AI 编码代理提供的强大 DevOps 能力。",
+    "faqTitle": "常见问题",
+    "faq1Q": "什么是 WolrdPulse？",
+    "faq1A": "它是一个开源的 MCP 服务器，为 AI 代理提供实时 DevOps 遥测数据。",
+    "faq2Q": "如何连接 Claude？",
+    "faq2A": "将 npx wolrdpulse 添加到您的 claude_desktop_config.json 文件中。"
+  },
+  "footer": {
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "developer": "开发者"
+  }
+}

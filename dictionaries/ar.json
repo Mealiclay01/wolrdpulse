@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | خادم MCP لمراقبة السحابة وأتمتة DevOps",
+    "description": "خادم Model Context Protocol مفتوح المصدر يوفر تقارير انقطاع الخدمات السحابية (AWS, Vercel) وفحص SSL و DNS لوكلاء الذكاء الاصطناعي.",
+    "keywords": [
+      "خادم MCP",
+      "بروتوكول سياق النموذج",
+      "مراقبة DevOps",
+      "حالة السحابة"
+    ]
+  },
+  "nav": {
+    "features": "الميزات",
+    "sponsor": "ادعم المطور",
+    "connectAgent": "ربط الوكيل",
+    "backHome": "العودة للرئيسية"
+  },
+  "home": {
+    "openSource": "مفتوح المصدر على جيت هب",
+    "headline": "مراقبة سحابية لحظية لوكلاء الذكاء الاصطناعي",
+    "subHeadline": "امنع هلوسة الذكاء الاصطناعي. امنح Claude و Cursor وصولاً فورياً لانقطاعات السحابة العالمية، وفحص DNS و SSL عبر بروتوكول MCP.",
+    "exploreFeatures": "استكشف الأدوات اللحظية",
+    "quickStart": "البدء السريع"
+  },
+  "features": {
+    "title": "ميزات المراقبة السحابية",
+    "subtitle": "اكتشف قدرات DevOps القوية التي يوفرها WolrdPulse لوكلاء الذكاء الاصطناعي.",
+    "faqTitle": "الأسئلة الشائعة",
+    "faq1Q": "ما هو WolrdPulse؟",
+    "faq1A": "هو خادم MCP مفتوح المصدر يزود وكلاء الذكاء الاصطناعي ببيانات DevOps لحظية.",
+    "faq2Q": "كيف أربط Claude؟",
+    "faq2A": "أضف npx wolrdpulse إلى ملف claude_desktop_config.json الخاص بك."
+  },
+  "footer": {
+    "terms": "شروط الخدمة",
+    "privacy": "سياسة الخصوصية",
+    "developer": "المطور"
+  }
+}

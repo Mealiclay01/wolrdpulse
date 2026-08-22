@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | Télémétrie en temps réel & Serveur MCP DevOps",
+    "description": "Serveur MCP open-source diffusant les pannes cloud en direct (AWS, Vercel), requêtes DNS DoH et vérification SSL pour l'IA.",
+    "keywords": [
+      "Serveur MCP",
+      "Intelligence Artificielle",
+      "Télémétrie DevOps"
+    ]
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "sponsor": "Sponsoriser",
+    "connectAgent": "Connecter l'Agent",
+    "backHome": "Retour à l'accueil"
+  },
+  "home": {
+    "openSource": "Open Source sur GitHub",
+    "headline": "Télémétrie Cloud en temps réel pour l'IA",
+    "subHeadline": "Arrêtez les hallucinations de l'IA. Donnez à Claude et Cursor un accès instantané aux pannes cloud mondiales via MCP.",
+    "exploreFeatures": "Explorer les Outils",
+    "quickStart": "Démarrage Rapide"
+  },
+  "features": {
+    "title": "Fonctionnalités de Télémétrie",
+    "subtitle": "Découvrez les capacités DevOps puissantes exposées aux agents IA.",
+    "faqTitle": "Foire Aux Questions",
+    "faq1Q": "Qu'est-ce que WolrdPulse ?",
+    "faq1A": "C'est un serveur MCP open-source qui fournit une télémétrie DevOps en temps réel aux agents IA.",
+    "faq2Q": "Comment connecter Claude ?",
+    "faq2A": "Ajoutez npx wolrdpulse à votre fichier claude_desktop_config.json."
+  },
+  "footer": {
+    "terms": "Conditions d'utilisation",
+    "privacy": "Confidentialité",
+    "developer": "Développeur"
+  }
+}

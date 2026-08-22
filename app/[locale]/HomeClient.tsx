@@ -22,7 +22,7 @@ import {
   Bot
 } from "lucide-react";
 
-export default function Home() {
+export default function Home({ t, locale }: { t: any, locale: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -41,47 +41,40 @@ export default function Home() {
   return (
     <ToastProvider>
       <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-600 selection:text-white">
-        {/* Floating Glass Navbar */}
-        <Navbar onConnectClick={() => setIsModalOpen(true)} />
-
+        <Navbar t={t.nav} locale={locale} onConnectClick={() => setIsModalOpen(true)} />
         <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col gap-24">
           
-          {/* Hero Section */}
           <section className="flex flex-col items-center text-center space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
             <a 
               href="https://github.com/Mealiclay01/wolrdpulse" 
               target="_blank" 
-              rel="noreferrer" 
-              className="inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-mono transition-colors border-[var(--border)] bg-[var(--card)] hover:bg-[var(--muted)] text-[var(--foreground)] shadow-sm"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--muted)] text-[var(--foreground)] text-sm font-medium hover:bg-[var(--accent)] transition-colors border border-[var(--border)]"
             >
               <Github size={13} />
-              <span>Open Source on GitHub</span>
+              <span>{t.home.openSource}</span>
               <ArrowRight size={12} className="text-[var(--muted-foreground)]" />
             </a>
-            
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-balance max-w-4xl leading-[1.08]">
-              Live DevOps context for autonomous AI agents.
+              {t.home.headline}
             </h1>
-            
             <p className="text-base sm:text-lg text-[var(--muted-foreground)] max-w-2xl text-balance leading-relaxed">
-              An open-source Model Context Protocol (MCP) server streaming live cloud outages, edge latency, DNS queries, and SSL certificate health directly into Claude and Cursor.
+              {t.home.subHeadline}
             </p>
-            
             <div className="flex flex-col sm:flex-row items-center gap-3.5 pt-2">
               <button 
-                onClick={() => setIsModalOpen(true)} 
-                className="h-11 px-6 flex items-center justify-center rounded-xl bg-[var(--foreground)] text-[var(--background)] font-medium text-xs sm:text-sm hover:opacity-90 transition-opacity w-full sm:w-auto gap-2 shadow-sm cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors focus:ring-4 focus:ring-blue-500/20"
               >
                 <Terminal size={16} />
-                <span>Connect Your Agent</span>
+                <span>{t.home.quickStart}</span>
               </button>
-              
               <Link 
-                href="/features"
-                className="h-11 px-6 flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--muted)] font-medium text-xs sm:text-sm transition-colors w-full sm:w-auto gap-2 shadow-sm"
+                href={`/${locale}/features`}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-[var(--muted)] text-[var(--foreground)] font-medium hover:bg-[var(--accent)] transition-colors border border-[var(--border)]"
               >
                 <Activity size={16} className="text-blue-500" />
-                <span>Explore Live Tools & Features</span>
+                <span>{t.home.exploreFeatures}</span>
                 <ArrowRight size={14} className="text-[var(--muted-foreground)]" />
               </Link>
             </div>

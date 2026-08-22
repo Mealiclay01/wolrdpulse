@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | リアルタイムテレメトリ & DevOps MCPサーバー",
+    "description": "AIエージェント向けにライブクラウド障害、DNS、SSL検証を提供するオープンソースMCPサーバー。",
+    "keywords": [
+      "MCPサーバー",
+      "DevOpsテレメトリ",
+      "クラウド障害"
+    ]
+  },
+  "nav": {
+    "features": "機能",
+    "sponsor": "スポンサー",
+    "connectAgent": "エージェントに接続",
+    "backHome": "ホームに戻る"
+  },
+  "home": {
+    "openSource": "GitHubでオープンソース",
+    "headline": "AIエージェント向けのリアルタイムクラウドテレメトリ",
+    "subHeadline": "AIの幻覚を防ぎます。MCPを介してClaudeやCursorにグローバルなクラウド障害への即時アクセスを提供します。",
+    "exploreFeatures": "ツールを見る",
+    "quickStart": "クイックスタート"
+  },
+  "features": {
+    "title": "ライブクラウドテレメトリ機能",
+    "subtitle": "AIコーディングエージェントに公開される強力なDevOps機能をご覧ください。",
+    "faqTitle": "よくある質問",
+    "faq1Q": "WolrdPulseとは何ですか？",
+    "faq1A": "AIエージェントにリアルタイムのDevOpsテレメトリを提供するオープンソースのMCPサーバーです。",
+    "faq2Q": "Claudeを接続するには？",
+    "faq2A": "claude_desktop_config.jsonにnpx wolrdpulseを追加してください。"
+  },
+  "footer": {
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "developer": "開発者"
+  }
+}

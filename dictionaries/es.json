@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | Telemetría en tiempo real y Servidor MCP DevOps",
+    "description": "Servidor MCP de código abierto que proporciona interrupciones de nube en vivo, DNS y verificación SSL para agentes de IA.",
+    "keywords": [
+      "Servidor MCP",
+      "Telemetría DevOps",
+      "Interrupción de nube"
+    ]
+  },
+  "nav": {
+    "features": "Características",
+    "sponsor": "Patrocinar",
+    "connectAgent": "Conectar Agente",
+    "backHome": "Volver al inicio"
+  },
+  "home": {
+    "openSource": "Código abierto en GitHub",
+    "headline": "Telemetría en tiempo real para agentes de IA",
+    "subHeadline": "Evite las alucinaciones de la IA. Dé a Claude y Cursor acceso instantáneo a interrupciones globales a través de MCP.",
+    "exploreFeatures": "Explorar Herramientas",
+    "quickStart": "Inicio Rápido"
+  },
+  "features": {
+    "title": "Funciones de Telemetría",
+    "subtitle": "Descubra las poderosas capacidades DevOps que WolrdPulse ofrece a la IA.",
+    "faqTitle": "Preguntas Frecuentes",
+    "faq1Q": "¿Qué es WolrdPulse?",
+    "faq1A": "Es un servidor MCP de código abierto que proporciona datos DevOps en tiempo real.",
+    "faq2Q": "¿Cómo conecto Claude?",
+    "faq2A": "Agregue npx wolrdpulse a su archivo claude_desktop_config.json."
+  },
+  "footer": {
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "developer": "Desarrollador"
+  }
+}

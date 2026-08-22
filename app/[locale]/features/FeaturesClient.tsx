@@ -23,7 +23,7 @@ import {
   Code2
 } from "lucide-react";
 
-export default function FeaturesPage() {
+export default function FeaturesPage({ t, locale }: { t: any, locale: string }) {
   const [activeTab, setActiveTab] = useState<"all" | "status" | "ssl" | "dns" | "ping" | "pulse">("all");
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
@@ -60,7 +60,7 @@ export default function FeaturesPage() {
     <ToastProvider>
       <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--foreground)] selection:text-[var(--background)]">
         {/* Navigation */}
-        <Navbar />
+        <Navbar t={t.nav} locale={locale} />
 
         <main className="pt-28 pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
           

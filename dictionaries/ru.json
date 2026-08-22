@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | Телеметрия в реальном времени и MCP сервер",
+    "description": "MCP сервер с открытым исходным кодом для передачи данных о сбоях в облаке, DNS и SSL для ИИ-агентов.",
+    "keywords": [
+      "MCP сервер",
+      "DevOps",
+      "Телеметрия"
+    ]
+  },
+  "nav": {
+    "features": "Функции",
+    "sponsor": "Спонсировать",
+    "connectAgent": "Подключить Агента",
+    "backHome": "На главную"
+  },
+  "home": {
+    "openSource": "Open Source на GitHub",
+    "headline": "Облачная телеметрия в реальном времени для ИИ",
+    "subHeadline": "Предотвратите галлюцинации ИИ. Дайте Claude и Cursor мгновенный доступ к глобальным сбоям облака.",
+    "exploreFeatures": "Изучить инструменты",
+    "quickStart": "Быстрый старт"
+  },
+  "features": {
+    "title": "Возможности Телеметрии",
+    "subtitle": "Узнайте о возможностях DevOps для ИИ-агентов.",
+    "faqTitle": "Часто задаваемые вопросы (FAQ)",
+    "faq1Q": "Что такое WolrdPulse?",
+    "faq1A": "Это MCP сервер с открытым исходным кодом для предоставления DevOps данных ИИ-агентам.",
+    "faq2Q": "Как подключить Claude?",
+    "faq2A": "Добавьте npx wolrdpulse в ваш claude_desktop_config.json."
+  },
+  "footer": {
+    "terms": "Условия",
+    "privacy": "Конфиденциальность",
+    "developer": "Разработчик"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "title": "WolrdPulse | Echtzeit-Telemetrie & DevOps MCP Server",
+    "description": "Open-Source MCP Server für Live-Cloud-Ausfälle, DNS DoH und SSL-Zertifikatsprüfung für KI-Agenten.",
+    "keywords": [
+      "MCP Server",
+      "Cloud-Ausfall",
+      "DevOps Telemetrie"
+    ]
+  },
+  "nav": {
+    "features": "Funktionen",
+    "sponsor": "Entwickler unterstützen",
+    "connectAgent": "Agent verbinden",
+    "backHome": "Zurück zur Startseite"
+  },
+  "home": {
+    "openSource": "Open Source auf GitHub",
+    "headline": "Echtzeit-Cloud-Telemetrie für KI-Agenten",
+    "subHeadline": "Verhindern Sie KI-Halluzinationen. Geben Sie Claude und Cursor sofortigen Zugriff auf globale Cloud-Ausfälle.",
+    "exploreFeatures": "Tools erkunden",
+    "quickStart": "Schnellstart"
+  },
+  "features": {
+    "title": "Live-Cloud-Telemetrie",
+    "subtitle": "Entdecken Sie leistungsstarke DevOps-Funktionen für KI-Agenten.",
+    "faqTitle": "Häufig gestellte Fragen",
+    "faq1Q": "Was ist WolrdPulse?",
+    "faq1A": "Ein Open-Source-MCP-Server, der KI-Agenten mit Echtzeit-DevOps-Daten versorgt.",
+    "faq2Q": "Wie verbinde ich Claude?",
+    "faq2A": "Fügen Sie npx wolrdpulse zu Ihrer claude_desktop_config.json hinzu."
+  },
+  "footer": {
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutz",
+    "developer": "Entwickler"
+  }
+}

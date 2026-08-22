@@ -9,11 +9,15 @@ export const metadata = {
   description: "Terms of Service for WolrdPulse.",
 };
 
-export default function TermsPage() {
+import { getDictionary } from "@/lib/i18n";
+export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getDictionary(locale);
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-24 pb-24 px-4 sm:px-6 lg:px-8">
       {/* Floating Glass Navbar */}
-      <Navbar />
+      <Navbar t={t.nav} locale={locale} showBackToHome={false} />
 
       <main className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">

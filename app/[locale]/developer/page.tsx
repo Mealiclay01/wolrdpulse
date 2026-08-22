@@ -21,11 +21,15 @@ export const metadata = {
   description: "DevOps & Cloud Engineer behind WolrdPulse, an open-source MCP telemetry server for AI coding agents.",
 };
 
-export default function DeveloperPage() {
+import { getDictionary } from "@/lib/i18n";
+export default async function DeveloperPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getDictionary(locale);
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-600 selection:text-white">
       {/* Top Floating Navbar */}
-      <Navbar />
+      <Navbar t={t.nav} locale={locale} showBackToHome={false} />
 
       <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-14 animate-in fade-in slide-in-from-bottom-4 duration-500">
         

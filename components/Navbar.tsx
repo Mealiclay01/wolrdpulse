@@ -9,32 +9,34 @@ import { Github, Terminal, Heart, ArrowLeft } from "lucide-react";
 interface NavbarProps {
   onConnectClick?: () => void;
   showBackToHome?: boolean;
+  t: any;
+  locale: string;
 }
 
-export default function Navbar({ onConnectClick, showBackToHome }: NavbarProps) {
+export default function Navbar({ onConnectClick, showBackToHome, t, locale }: NavbarProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-[var(--border)] px-4 sm:px-6 py-3.5 transition-all">
       <div className="max-w-6xl mx-auto w-full flex items-center justify-between">
         {/* Left: Brand Logo */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="group flex items-center">
+          <Link href={`/${locale}`} className="group flex items-center">
             <BrandLogo size="md" />
           </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1 text-xs font-medium text-[var(--muted-foreground)]">
             <Link 
-              href="/features" 
+              href={`/${locale}/features`} 
               className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
             >
-              Features & Tools
+              {t.features}
             </Link>
             <Link 
-              href="/developer" 
+              href={`/${locale}/developer`} 
               className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors flex items-center gap-1"
             >
               <Heart size={12} className="text-rose-500 fill-rose-500/30" />
-              Developer & Sponsor
+              {t.sponsor}
             </Link>
           </nav>
         </div>
@@ -60,15 +62,15 @@ export default function Navbar({ onConnectClick, showBackToHome }: NavbarProps) 
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold hover:opacity-90 transition-all shadow-sm cursor-pointer"
             >
               <Terminal size={13} />
-              <span>Connect Agent</span>
+              <span>{t.connectAgent}</span>
             </button>
           ) : (
             <Link
-              href="/"
+              href={`/${locale}`}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold hover:opacity-90 transition-all shadow-sm"
             >
               <ArrowLeft size={13} />
-              <span>Back to App</span>
+              <span>{t.backHome}</span>
             </Link>
           )}
         </div>
