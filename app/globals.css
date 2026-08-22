@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    
+    --primary: #0f172a;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    
+    --muted: #f1f5f9;
+    --muted-foreground: #334155; /* Crisp, high-contrast readable dark slate */
+    
+    --accent: #e2e8f0;
+    --accent-foreground: #0f172a;
+    
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    --border: #cbd5e1;
+    --input: #cbd5e1;
+    --ring: #0f172a;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Eye-comfort deep slate dark theme (No harsh glare, zero eye strain) */
+    --background: #0b0f17;
+    --foreground: #f8fafc;
+    
+    --card: #111722;
+    --card-foreground: #f8fafc;
+    
+    --popover: #111722;
+    --popover-foreground: #f8fafc;
+    
+    --primary: #f8fafc;
+    --primary-foreground: #0b0f17;
+    
+    --secondary: #1a2232;
+    --secondary-foreground: #f8fafc;
+    
+    --muted: #161e2e;
+    --muted-foreground: #cbd5e1; /* High-contrast, easy-to-read bright silver-slate */
+    
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+    
+    --destructive: #f87171;
+    --destructive-foreground: #0b0f17;
+
+    --border: #243044;
+    --input: #243044;
+    --ring: #94a3b8;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-blue-600 selection:text-white;
+    font-feature-settings: "rlig" 1, "calt" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Beautiful custom utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .glass-panel {
+    @apply backdrop-blur-xl border border-[var(--border)] shadow-sm;
+    background-color: rgba(248, 250, 252, 0.88);
+  }
+  .dark .glass-panel {
+    background-color: rgba(11, 15, 23, 0.88);
+  }
+  .marketing-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white;
+  }
+}
+
+/* Data Table refinement */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  text-align: left;
+}
+
+.data-table th {
+  color: var(--muted-foreground);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+}
+
+.data-table tr:hover td {
+  background-color: var(--muted);
+}
