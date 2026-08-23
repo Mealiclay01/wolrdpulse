@@ -65,6 +65,10 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    },
     openGraph: {
       title: t?.metadata?.title || "WolrdPulse | Real-Time Telemetry MCP Server for AI Agents",
       description: t?.metadata?.description || "Open-source Model Context Protocol server.",

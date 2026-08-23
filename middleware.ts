@@ -9,7 +9,6 @@ export const i18n = {
 };
 
 function getLocale(request: NextRequest): string {
-  // Negotiator expects plain object so we need to transform headers
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
@@ -27,17 +26,14 @@ function getLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for API, SSE, and static files
+  // Skip middleware for API, SSE, icons, and all static file extensions
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/sse") ||
     pathname.startsWith("/icon") ||
-    pathname.match(/\.(png|jpg|jpeg|gif|svg|ico)$/) ||
-    pathname.includes("robots.txt") ||
-    pathname.includes("sitemap.xml") ||
-    pathname.includes("llms.txt")
+    pathname.includes(".") // Matches any file with an extension (robots.txt, sitemap.xml, llms.txt, favicon.ico, etc.)
   ) {
-    return;
+    return NextResponse.next();
   }
 
   // Check if there is any supported locale in the pathname
@@ -45,18 +41,18 @@ export function middleware(request: NextRequest) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (pathnameHasLocale) return NextResponse.next();
 
-  // Redirect if there is no locale
+  // Permanent 308 redirect if there is no locale
   const locale = getLocale(request);
-  request.nextUrl.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
+  const redirectUrl = new URL(`/${locale}${pathname === "/" ? "" : pathname}`, request.url);
   
-  return NextResponse.redirect(request.nextUrl);
+  return NextResponse.redirect(redirectUrl, 308);
 }
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
-    "/((?!_next).*)",
+    // Skip all internal Next.js paths (_next, static)
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };

@@ -5,12 +5,12 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const domain = searchParams.get("domain");
+  const domain = searchParams.get("domain") || searchParams.get("name") || searchParams.get("q");
   const type = searchParams.get("type") || "A";
 
   if (!domain) {
     return NextResponse.json(
-      { error: "Query parameter 'domain' is required (e.g. ?domain=wolrdpulse.app)" },
+      { error: "Query parameter 'domain' or 'name' is required (e.g. ?domain=wolrdpulse.app)" },
       { status: 400 }
     );
   }
