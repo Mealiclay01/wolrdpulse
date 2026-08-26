@@ -1,13 +1,28 @@
 {
   "metadata": {
-    "title": "WolrdPulse | Real-Time Telemetry & DevOps MCP Server",
-    "description": "WolrdPulse is an open-source Model Context Protocol (MCP) server streaming live cloud outages (AWS, Vercel, GitHub), DNS DoH queries, and SSL certificate verification.",
+    "title": "WolrdPulse — MCP Server for Real-Time Cloud Status, DNS & SSL | AI DevOps Telemetry",
+    "description": "Free open-source MCP server for Claude, Cursor & Windsurf. Get live AWS/Vercel/GitHub outage status, DNS-over-HTTPS lookups, SSL certificate inspection, and edge latency probes directly inside your AI coding agent.",
     "keywords": [
       "MCP Server",
-      "Model Context Protocol",
-      "DevOps Telemetry",
-      "Claude MCP",
-      "Cursor MCP"
+      "Model Context Protocol server",
+      "Claude MCP server",
+      "Cursor MCP integration",
+      "Windsurf MCP",
+      "AI agent DevOps tools",
+      "real-time cloud status API",
+      "AWS outage checker",
+      "Vercel status API",
+      "GitHub status MCP",
+      "DNS over HTTPS resolver",
+      "SSL certificate checker",
+      "edge latency probe",
+      "DevOps telemetry",
+      "open source MCP",
+      "AI coding agent infrastructure",
+      "cloud incident detection",
+      "MCP server SSE endpoint",
+      "autonomous AI agent tools",
+      "free cloud monitoring API"
     ]
   },
   "nav": {
@@ -18,8 +33,8 @@
   },
   "home": {
     "openSource": "Open Source on GitHub",
-    "headline": "Live DevOps context for autonomous AI agents.",
-    "subHeadline": "An open-source Model Context Protocol (MCP) server streaming live cloud outages, edge latency, DNS queries, and SSL certificate health directly into Claude and Cursor.",
+    "headline": "Real-Time Cloud Status & DevOps MCP Server for AI Agents",
+    "subHeadline": "Connect Claude, Cursor, or Windsurf to WolrdPulse — an open-source Model Context Protocol (MCP) server streaming live AWS/Vercel/GitHub outage status, DNS-over-HTTPS lookups, SSL certificate inspection, and edge latency probes directly into your AI coding agent.",
     "quickStart": "Connect Your Agent",
     "exploreFeatures": "Explore Live Tools & Features",
     "demoTitle": "How AI Agents Use WolrdPulse",

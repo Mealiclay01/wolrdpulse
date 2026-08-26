@@ -20,11 +20,27 @@ import { getDictionary } from "@/lib/i18n";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getDictionary(locale);
+  const title = t.developer?.title || "Anas Rhimi — Developer & Creator of WolrdPulse MCP Server";
+  const description = t.developer?.description || "DevOps & Cloud Engineer behind WolrdPulse, an open-source MCP telemetry server for AI coding agents. Learn about the architecture, stack, and sponsor the project.";
+  const ogImageUrl = "https://wolrdpulse.app/opengraph-image";
   return {
-    title: t.developer?.title || "About the Developer | Anas Rhimi (WolrdPulse)",
-    description: t.developer?.description || "DevOps & Cloud Engineer behind WolrdPulse, an open-source MCP telemetry server for AI coding agents.",
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://wolrdpulse.app/${locale}/developer`,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: "Anas Rhimi — WolrdPulse Developer" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
+    },
   };
 }
+
 
 export default async function DeveloperPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

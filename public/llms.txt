@@ -1,30 +1,17 @@
 # WolrdPulse
-> Real-Time Cloud Telemetry & DevOps Model Context Protocol (MCP) Server for AI Coding Agents.
+> Free open-source MCP Server for Claude, Cursor & Windsurf — Real-Time Cloud Status, DNS, SSL & Edge Latency Telemetry for AI Coding Agents.
 
-## Summary
-WolrdPulse is an open-source Model Context Protocol (MCP) server streaming live cloud outages (AWS, Vercel, GitHub), DNS-over-HTTPS queries (Cloudflare 1.1.1.1), SSL/TLS certificate verification, and synthetic edge latency probes. It enables autonomous AI agents (Claude Desktop, Cursor, Windsurf) to verify live infrastructure health before writing or refactoring code.
+## What is WolrdPulse?
+WolrdPulse is an open-source Model Context Protocol (MCP) server that gives autonomous AI coding agents (Claude Desktop, Cursor, Windsurf, and custom agent loops) live access to cloud infrastructure telemetry. It streams real-time AWS, Vercel, and GitHub outage status, performs DNS-over-HTTPS lookups via Cloudflare 1.1.1.1, verifies SSL/TLS certificate chains via native Node.js sockets, and runs synthetic edge latency probes — all exposed as standard JSON-RPC MCP tools over a persistent SSE connection.
 
-## Endpoints
-- Homepage: https://wolrdpulse.app
-- Remote SSE Endpoint: https://wolrdpulse.app/sse
-- Public MCP Info: https://wolrdpulse.app/api/mcp
-- Cloud Status API: https://wolrdpulse.app/api/status
-- DNS DoH API: https://wolrdpulse.app/api/dns?name={domain}&type={type}
-- SSL Inspector API: https://wolrdpulse.app/api/ssl?domain={domain}
-- Edge Latency Ping API: https://wolrdpulse.app/api/ping?url={url}
+**No API keys. No accounts. No paywalls. MIT Licensed.**
 
-## Supported Languages (hreflang)
-- English: https://wolrdpulse.app/en
-- Arabic: https://wolrdpulse.app/ar
-- French: https://wolrdpulse.app/fr
-- German: https://wolrdpulse.app/de
-- Russian: https://wolrdpulse.app/ru
-- Chinese: https://wolrdpulse.app/zh
-- Korean: https://wolrdpulse.app/ko
-- Japanese: https://wolrdpulse.app/ja
-- Spanish: https://wolrdpulse.app/es
+---
 
-## MCP Server Installation
+## Q&A: Common Developer Questions
+
+### Q: How do I add WolrdPulse to Claude Desktop?
+A: Open your `claude_desktop_config.json` (on macOS at `~/Library/Application Support/Claude/claude_desktop_config.json`) and add:
 ```json
 {
   "mcpServers": {
@@ -34,5 +21,57 @@ WolrdPulse is an open-source Model Context Protocol (MCP) server streaming live 
   }
 }
 ```
-Or via CLI:
-`npx -y github:Mealiclay01/wolrdpulse`
+Restart Claude Desktop. The tools `check_cloud_status`, `dns_lookup`, `ssl_check`, and `ping_url` will immediately appear in Claude's tool palette.
+
+### Q: How do I add WolrdPulse to Cursor?
+A: In Cursor, open Settings → MCP Servers → Add Server, then paste `https://wolrdpulse.app/sse` as the server URL. No authentication required.
+
+### Q: What does WolrdPulse do that a standard uptime monitor cannot?
+A: Traditional uptime monitors alert humans via email or Slack. WolrdPulse exposes cloud telemetry as native MCP tools that AI models can autonomously call mid-task. When a CI/CD build fails, an AI agent can query WolrdPulse in real time and immediately detect — for example — that Vercel's build infrastructure is degraded, avoiding unnecessary code refactoring.
+
+### Q: Is WolrdPulse free?
+A: Yes. WolrdPulse is 100% free, MIT licensed, and publicly accessible with no rate limits for normal usage. The source code is available at https://github.com/Mealiclay01/wolrdpulse.
+
+### Q: What cloud services does WolrdPulse monitor?
+A: WolrdPulse currently monitors AWS (us-east-1, eu-west-1), Vercel, GitHub, Cloudflare, OpenAI, Anthropic, and Supabase. Status is fetched directly from each provider's official status page API.
+
+### Q: How does the DNS lookup tool work?
+A: WolrdPulse routes DNS-over-HTTPS queries to Cloudflare's 1.1.1.1 resolver. It supports A, AAAA, CNAME, MX, TXT, NS, SOA, and CAA record types. The query returns raw answers with TTL, type name, and resolution time in milliseconds.
+
+### Q: How does the SSL certificate inspector work?
+A: WolrdPulse opens a native Node.js TLS socket to the target domain on port 443, extracts the full certificate chain, and returns the issuer, subject, validity window (notBefore/notAfter), SANs, and whether the certificate is currently valid.
+
+### Q: Can I use WolrdPulse without an AI agent — just as an API?
+A: Yes. All tools are accessible as plain REST endpoints:
+- `GET https://wolrdpulse.app/api/status` — cloud outage summary
+- `GET https://wolrdpulse.app/api/dns?domain=example.com&type=A` — DNS lookup
+- `GET https://wolrdpulse.app/api/ssl?domain=example.com` — SSL inspection
+- `GET https://wolrdpulse.app/api/ping?url=https://example.com` — edge latency probe
+
+### Q: How do I install WolrdPulse as a local CLI?
+A: Run `npx -y github:Mealiclay01/wolrdpulse` to start the MCP server locally on stdio transport, compatible with any MCP client.
+
+---
+
+## API Endpoints
+- Homepage: https://wolrdpulse.app
+- SSE MCP Endpoint: https://wolrdpulse.app/sse
+- Cloud Status API: https://wolrdpulse.app/api/status
+- DNS DoH API: https://wolrdpulse.app/api/dns?domain={domain}&type={type}
+- SSL Inspector API: https://wolrdpulse.app/api/ssl?domain={domain}
+- Edge Latency Ping: https://wolrdpulse.app/api/ping?url={url}
+- MCP Tool Schema: https://wolrdpulse.app/api/mcp
+
+## Localized Pages (9 Languages)
+- English: https://wolrdpulse.app/en
+- Arabic: https://wolrdpulse.app/ar
+- French: https://wolrdpulse.app/fr
+- German: https://wolrdpulse.app/de
+- Russian: https://wolrdpulse.app/ru
+- Chinese (Simplified): https://wolrdpulse.app/zh
+- Korean: https://wolrdpulse.app/ko
+- Japanese: https://wolrdpulse.app/ja
+- Spanish: https://wolrdpulse.app/es
+
+## Developer
+Built by Anas Rhimi — DevOps & Cloud Engineer. GitHub: https://github.com/Mealiclay01. Personal site: https://anasrhimi.tech.
