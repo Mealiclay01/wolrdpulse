@@ -26,12 +26,16 @@ function getLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for API, SSE, icons, and all static file extensions
+  // Skip middleware for API, SSE, icons, static files, and Next.js image generation routes
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/sse") ||
     pathname.startsWith("/icon") ||
-    pathname.includes(".") // Matches any file with an extension (robots.txt, sitemap.xml, llms.txt, favicon.ico, etc.)
+    pathname.startsWith("/opengraph-image") ||
+    pathname.startsWith("/twitter-image") ||
+    pathname.startsWith("/apple-icon") ||
+    pathname.startsWith("/manifest") ||
+    pathname.includes(".") // Matches any file with an extension (robots.txt, sitemap.xml, llms.txt, etc.)
   ) {
     return NextResponse.next();
   }
