@@ -43,13 +43,13 @@ export default function CommandPalette({
     let text = "";
     if (type === "cursor" || type === "claude") {
       text = JSON.stringify(
-        { mcpServers: { worldpulse: { url: "https://wolrdpulse.app/sse" } } },
+        { mcpServers: { wolrdpulse: { url: "https://wolrdpulse.app/sse" } } },
         null,
         2
       );
     } else if (type === "zed") {
       text = JSON.stringify(
-        { context_servers: { worldpulse: { url: "https://wolrdpulse.app/sse" } } },
+        { context_servers: { wolrdpulse: { url: "https://wolrdpulse.app/sse" } } },
         null,
         2
       );

@@ -13,9 +13,6 @@ locales.forEach(loc => {
     urlList.push(`https://${host}/${loc}${r}`);
   });
 });
-urlList.push(`https://${host}`);
-urlList.push(`https://${host}/llms.txt`);
-urlList.push(`https://${host}/sitemap.xml`);
 
 const payload = JSON.stringify({
   host: host,
@@ -24,7 +21,7 @@ const payload = JSON.stringify({
   urlList: urlList
 });
 
-console.log(`Submitting ${urlList.length} URLs to IndexNow...`);
+console.log(`Submitting ${urlList.length} clean URLs to IndexNow...`);
 
 function submitToIndexNow(endpoint) {
   const url = new URL(endpoint);
@@ -35,7 +32,8 @@ function submitToIndexNow(endpoint) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Length': Buffer.byteLength(payload)
+      'Content-Length': Buffer.byteLength(payload),
+      'User-Agent': 'WolrdPulse-IndexNow/1.0'
     }
   };
 
@@ -57,5 +55,5 @@ function submitToIndexNow(endpoint) {
 }
 
 submitToIndexNow("https://api.indexnow.org/indexnow");
-submitToIndexNow("https://yandex.com/indexnow");
 submitToIndexNow("https://www.bing.com/indexnow");
+submitToIndexNow("https://yandex.com/indexnow");

@@ -6,6 +6,16 @@ import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import { getDictionary } from "@/lib/i18n";
 import { i18n } from "@/middleware";
+import { withSearchKeywords } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import {
+  AUTHOR_NAME,
+  AUTHOR_SAME_AS,
+  AUTHOR_URL,
+  GITHUB_REPO,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -33,7 +43,7 @@ export async function generateMetadata({
 
   // Generate hreflang for all supported locales
   const languages: Record<string, string> = {
-    'x-default': 'https://wolrdpulse.app',
+    'x-default': 'https://wolrdpulse.app/en',
   };
   
   i18n.locales.forEach((l) => {
@@ -47,7 +57,7 @@ export async function generateMetadata({
       template: "%s | WolrdPulse",
     },
     description: t?.metadata?.description || "WolrdPulse is an open-source Model Context Protocol (MCP) server.",
-    keywords: t?.metadata?.keywords || [],
+    keywords: withSearchKeywords(t?.metadata?.keywords),
     authors: [{ name: "Anas Rhimi", url: "https://anasrhimi.tech" }],
     creator: "Anas Rhimi",
     publisher: "WolrdPulse",
@@ -67,7 +77,7 @@ export async function generateMetadata({
       },
     },
     verification: {
-      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      google: "4WpM2nEjRmdi_hJPVgfoiFL6BLHGo0Kyt_dLvGug5Gw",
       yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
     },
     openGraph: {
@@ -108,9 +118,10 @@ export default async function RootLayout({
       {
         "@type": "WebSite",
         "@id": "https://wolrdpulse.app/#website",
-        "url": `https://wolrdpulse.app/${locale}`,
-        "name": "WolrdPulse",
-        "description": t?.metadata?.description || "Real-time DevOps telemetry and Model Context Protocol (MCP) server.",
+        "url": `${SITE_URL}/en`,
+        "name": SITE_NAME,
+        "description": "Open-source Model Context Protocol (MCP) DevOps telemetry server. Not the World Pulse social app and not the WorldPulse weather product.",
+        "keywords": withSearchKeywords(t?.metadata?.keywords).join(", "),
         "publisher": {
           "@id": "https://wolrdpulse.app/#organization",
         },
@@ -118,40 +129,49 @@ export default async function RootLayout({
       {
         "@type": "Organization",
         "@id": "https://wolrdpulse.app/#organization",
-        "name": "WolrdPulse",
-        "url": "https://wolrdpulse.app",
-        "logo": "https://wolrdpulse.app/icon",
-        "sameAs": [
-          "https://github.com/Mealiclay01/wolrdpulse",
-          "https://github.com/Mealiclay01",
-          "https://anasrhimi.tech",
-        ],
+        "name": SITE_NAME,
+        "url": SITE_URL,
+        "logo": `${SITE_URL}/icon`,
+        "sameAs": [GITHUB_REPO, AUTHOR_URL],
       },
       {
         "@type": "Person",
         "@id": "https://anasrhimi.tech/#person",
-        "name": "Anas Rhimi",
+        "name": AUTHOR_NAME,
         "jobTitle": "DevOps & Cloud Engineer",
-        "url": "https://anasrhimi.tech",
-        "sameAs": [
-          "https://github.com/Mealiclay01",
-          "https://github.com/Mealiclay01/wolrdpulse",
-        ],
+        "url": AUTHOR_URL,
+        "sameAs": AUTHOR_SAME_AS,
       },
       {
         "@type": "SoftwareApplication",
         "@id": "https://wolrdpulse.app/#software",
-        "name": "WolrdPulse MCP Server",
-        "operatingSystem": "Web, macOS, Windows, Linux",
+        "name": SITE_NAME,
+        "alternateName": ["WolrdPulse MCP Server", "WolrdPulse AI DevOps Telemetry"],
         "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Model Context Protocol (MCP) Server",
+        "operatingSystem": "Cross-platform (macOS, Linux, Windows)",
+        "featureList": [
+          "Real-time AWS, Vercel, and GitHub cloud outage status via get_cloud_status",
+          "TLS/SSL certificate expiration and issuer chain inspection via inspect_ssl",
+          "DNS-over-HTTPS A, AAAA, CNAME, MX, TXT lookups via query_dns",
+          "Synthetic HTTP edge latency and header probes via ping_endpoint",
+        ],
+        "codeRepository": GITHUB_REPO,
         "license": "https://opensource.org/licenses/MIT",
+        "image": "https://wolrdpulse.app/opengraph-image",
+        "brand": { "@type": "Brand", "name": "WolrdPulse" },
+        "keywords": withSearchKeywords(t?.metadata?.keywords).join(", "),
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "validFrom": "2026-01-01",
+          "priceValidUntil": "2027-12-31",
+          "url": `https://wolrdpulse.app/${locale}`,
         },
         "description": t?.metadata?.description || "Open-source Model Context Protocol server.",
-        "url": `https://wolrdpulse.app/${locale}`,
+        "url": `${SITE_URL}/en`,
         "author": {
           "@id": "https://anasrhimi.tech/#person",
         },
@@ -167,12 +187,7 @@ export default async function RootLayout({
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdGraph),
-          }}
-        />
+        <JsonLd data={jsonLdGraph} />
       </body>
     </html>
   );

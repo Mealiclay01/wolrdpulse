@@ -18,7 +18,7 @@ export default function LivePulseHero({
     cursor: `// .cursor/mcp.json
 {
   "mcpServers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
@@ -26,7 +26,7 @@ export default function LivePulseHero({
     claude: `// claude_desktop_config.json
 {
   "mcpServers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
@@ -34,7 +34,7 @@ export default function LivePulseHero({
     zed: `// ~/.config/zed/settings.json
 {
   "context_servers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }

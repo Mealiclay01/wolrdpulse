@@ -6,6 +6,8 @@ import BrandLogo from "@/components/BrandLogo";
 import AgentSessionDemo from "@/components/AgentSessionDemo";
 import { ToastProvider } from "@/components/Toast";
 import Link from "next/link";
+import { MCP_SERVER_KEY, MCP_SSE_URL, mcpConfig } from "@/lib/site";
+import { homeFaqs } from "@/lib/home-faq";
 import { 
   ArrowRight, 
   Terminal, 
@@ -27,13 +29,7 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
   const [cliCopied, setCliCopied] = useState(false);
 
   const copyConfig = () => {
-    navigator.clipboard.writeText(`{
-  "mcpServers": {
-    "worldpulse": {
-      "url": "https://wolrdpulse.app/sse"
-    }
-  }
-}`);
+    navigator.clipboard.writeText(mcpConfig());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -46,7 +42,7 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-600 selection:text-white">
+      <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-600 selection:text-white">
         <Navbar t={t.nav} locale={locale} onConnectClick={() => setIsModalOpen(true)} />
         
         <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col gap-24">
@@ -258,12 +254,64 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
               <pre className="text-[var(--foreground)] leading-relaxed">
 {`{
   `}<span className="text-blue-600 dark:text-blue-400 font-semibold">"mcpServers"</span>{`: {
-    `}<span className="text-purple-600 dark:text-purple-400 font-semibold">"worldpulse"</span>{`: {
-      `}<span className="text-blue-600 dark:text-blue-400">"url"</span>{`: `}<span className="text-emerald-600 dark:text-emerald-400 font-semibold">"https://wolrdpulse.app/sse"</span>{`
+    `}<span className="text-purple-600 dark:text-purple-400 font-semibold">"{MCP_SERVER_KEY}"</span>{`: {
+      `}<span className="text-blue-600 dark:text-blue-400">"url"</span>{`: `}<span className="text-emerald-600 dark:text-emerald-400 font-semibold">"{MCP_SSE_URL}"</span>{`
     }
   }
 }`}
               </pre>
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold tracking-tight">MCP tool reference</h2>
+            <table className="w-full text-sm border border-[var(--border)]">
+              <thead>
+                <tr className="bg-[var(--muted)] text-left">
+                  <th className="p-3">Tool name</th>
+                  <th className="p-3">What it checks</th>
+                  <th className="p-3">Key inputs</th>
+                  <th className="p-3">Example prompt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t border-[var(--border)]">
+                  <td className="p-3 font-mono text-xs">get_cloud_status</td>
+                  <td className="p-3">Public outage status for AWS, Vercel, GitHub, and other feeds</td>
+                  <td className="p-3 font-mono text-xs">provider?</td>
+                  <td className="p-3">Call get_cloud_status for vercel before editing next.config.</td>
+                </tr>
+                <tr className="border-t border-[var(--border)]">
+                  <td className="p-3 font-mono text-xs">inspect_ssl</td>
+                  <td className="p-3">TLS issuer, expiry, and days remaining on port 443</td>
+                  <td className="p-3 font-mono text-xs">domain</td>
+                  <td className="p-3">inspect_ssl wolrdpulse.app and quote daysRemaining.</td>
+                </tr>
+                <tr className="border-t border-[var(--border)]">
+                  <td className="p-3 font-mono text-xs">query_dns</td>
+                  <td className="p-3">DNS-over-HTTPS answers from Cloudflare 1.1.1.1</td>
+                  <td className="p-3 font-mono text-xs">domain, recordType?</td>
+                  <td className="p-3">query_dns wolrdpulse.app recordType CNAME.</td>
+                </tr>
+                <tr className="border-t border-[var(--border)]">
+                  <td className="p-3 font-mono text-xs">ping_endpoint</td>
+                  <td className="p-3">HTTP status and time to first byte</td>
+                  <td className="p-3 font-mono text-xs">url</td>
+                  <td className="p-3">ping_endpoint https://wolrdpulse.app/en and report status.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section className="space-y-6" aria-labelledby="topic-faq">
+            <h2 id="topic-faq" className="text-2xl font-bold tracking-tight">{t.features?.faqTitle || "Questions about the MCP server"}</h2>
+            <div className="grid gap-4">
+              {homeFaqs(locale).map((faq) => (
+                <article key={faq.q} className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 space-y-2">
+                  <h3 className="font-semibold text-base">{faq.q}</h3>
+                  <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
+                </article>
+              ))}
             </div>
           </section>
 
@@ -274,6 +322,10 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
               <span>© {new Date().getFullYear()}</span>
             </div>
             <div className="flex flex-wrap items-center gap-6">
+              <Link href="/en/tools" className="hover:text-[var(--foreground)] transition-colors">Tools</Link>
+              <Link href="/en/integrations" className="hover:text-[var(--foreground)] transition-colors">IDEs</Link>
+              <Link href="/en/status" className="hover:text-[var(--foreground)] transition-colors">Status</Link>
+              <Link href="/en/guides" className="hover:text-[var(--foreground)] transition-colors">Guides</Link>
               <Link href={`/${locale}/features`} className="hover:text-[var(--foreground)] transition-colors">
                 {t.footer?.features || "Features & Tools"}
               </Link>
@@ -317,8 +369,8 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
                   <pre className="leading-relaxed">
 {`{
   `}<span className="text-blue-600 dark:text-blue-400 font-semibold">"mcpServers"</span>{`: {
-    `}<span className="text-purple-600 dark:text-purple-400 font-semibold">"worldpulse"</span>{`: {
-      `}<span className="text-blue-600 dark:text-blue-400">"url"</span>{`: `}<span className="text-emerald-600 dark:text-emerald-400 font-semibold">"https://wolrdpulse.app/sse"</span>{`
+    `}<span className="text-purple-600 dark:text-purple-400 font-semibold">"{MCP_SERVER_KEY}"</span>{`: {
+      `}<span className="text-blue-600 dark:text-blue-400">"url"</span>{`: `}<span className="text-emerald-600 dark:text-emerald-400 font-semibold">"{MCP_SSE_URL}"</span>{`
     }
   }
 }`}
@@ -344,7 +396,7 @@ export default function Home({ t, locale }: { t: any, locale: string }) {
             </div>
           </div>
         )}
-      </div>
+      </main>
     </ToastProvider>
   );
 }

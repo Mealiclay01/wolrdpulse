@@ -1,5 +1,14 @@
 import Link from "next/link";
 import { ArrowLeft, Activity } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404: Page Not Found | WolrdPulse",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function LocalizedNotFound() {
   return (
@@ -17,7 +26,7 @@ export default function LocalizedNotFound() {
         </div>
         <div>
           <Link
-            href="/"
+            href="/en"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--foreground)] text-[var(--background)] text-xs font-semibold shadow-md hover:opacity-90 transition-all"
           >
             <ArrowLeft size={14} />

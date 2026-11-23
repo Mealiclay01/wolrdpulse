@@ -111,13 +111,13 @@ export default function McpIntegrationGuide() {
           <div className="relative rounded-xl border border-slate-800 bg-[#070a11] p-4 font-mono text-xs text-emerald-300">
             <pre className="overflow-x-auto">{`{
   "mcpServers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
 }`}</pre>
             <button
-              onClick={() => handleCopy(`{\n  "mcpServers": {\n    "worldpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 1)}
+              onClick={() => handleCopy(`{\n  "mcpServers": {\n    "wolrdpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 1)}
               className="absolute top-3 right-3 rounded bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700"
             >
               {copiedIndex === 1 ? "Copied!" : "Copy"}
@@ -135,13 +135,13 @@ export default function McpIntegrationGuide() {
           <div className="relative rounded-xl border border-slate-800 bg-[#070a11] p-4 font-mono text-xs text-emerald-300">
             <pre className="overflow-x-auto">{`{
   "mcpServers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
 }`}</pre>
             <button
-              onClick={() => handleCopy(`{\n  "mcpServers": {\n    "worldpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 2)}
+              onClick={() => handleCopy(`{\n  "mcpServers": {\n    "wolrdpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 2)}
               className="absolute top-3 right-3 rounded bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700"
             >
               {copiedIndex === 2 ? "Copied!" : "Copy"}
@@ -159,13 +159,13 @@ export default function McpIntegrationGuide() {
           <div className="relative rounded-xl border border-slate-800 bg-[#070a11] p-4 font-mono text-xs text-emerald-300">
             <pre className="overflow-x-auto">{`{
   "context_servers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
 }`}</pre>
             <button
-              onClick={() => handleCopy(`{\n  "context_servers": {\n    "worldpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 3)}
+              onClick={() => handleCopy(`{\n  "context_servers": {\n    "wolrdpulse": {\n      "url": "https://wolrdpulse.app/sse"\n    }\n  }\n}`, 3)}
               className="absolute top-3 right-3 rounded bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700"
             >
               {copiedIndex === 3 ? "Copied!" : "Copy"}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Globe, ChevronDown, Check } from "lucide-react";
 
 export const LOCALES = [
@@ -20,7 +20,6 @@ export default function LanguageSelector({ currentLocale }: { currentLocale: str
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const router = useRouter();
 
   const current = LOCALES.find((l) => l.code === currentLocale) || LOCALES[0];
 
@@ -44,8 +43,12 @@ export default function LanguageSelector({ currentLocale }: { currentLocale: str
     } else {
       segments.unshift(newLocale);
     }
-    const newPath = `/${segments.join("/")}`;
-    router.push(newPath);
+    const rest = segments.slice(1).join("/");
+    const englishOnly = /^(tools|integrations|status|guides)(\/|$)/.test(rest);
+    const newPath = englishOnly && newLocale !== "en"
+      ? `/${newLocale}`
+      : `/${segments.join("/")}`;
+    window.location.assign(newPath);
   };
 
   return (
@@ -62,7 +65,7 @@ export default function LanguageSelector({ currentLocale }: { currentLocale: str
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-1.5 w-44 rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-xl p-1 z-[60] animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute inset-inline-end-0 mt-1.5 w-44 rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-xl p-1 z-[60] animate-in fade-in zoom-in-95 duration-150">
           <div className="px-2.5 py-1.5 text-[10px] font-mono uppercase text-[var(--muted-foreground)] border-b border-[var(--border)] mb-1">
             Language / اللغة
           </div>

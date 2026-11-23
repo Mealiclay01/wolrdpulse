@@ -25,6 +25,14 @@ function getLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const host = request.headers.get("host")?.split(":")[0].toLowerCase();
+
+  if (host === "www.wolrdpulse.app") {
+    const url = request.nextUrl.clone();
+    url.protocol = "https";
+    url.host = "wolrdpulse.app";
+    return NextResponse.redirect(url, 308);
+  }
 
   // Skip middleware for API, SSE, icons, static files, and Next.js image generation routes
   if (
@@ -40,6 +48,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Tool, IDE, status, and guide pages are English-only. Other locale
+  // URLs would be the same copy and split the canonical.
+  const englishOnly = pathname.match(
+    /^\/(ar|fr|de|ru|zh|ko|ja|es)\/(tools|integrations|status|guides)(\/.*)?$/,
+  );
+  if (englishOnly) {
+    const target = pathname.replace(/^\/(ar|fr|de|ru|zh|ko|ja|es)/, "/en");
+    return NextResponse.redirect(new URL(`${target}${request.nextUrl.search}`, request.url), 308);
+  }
+
   // Check if there is any supported locale in the pathname
   const pathnameHasLocale = i18n.locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -47,10 +65,13 @@ export function middleware(request: NextRequest) {
 
   if (pathnameHasLocale) return NextResponse.next();
 
-  // Permanent 308 redirect if there is no locale
+  // One canonical homepage. Negotiating the locale here split / and /en.
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/en", request.url), 308);
+  }
+
   const locale = getLocale(request);
-  const redirectUrl = new URL(`/${locale}${pathname === "/" ? "" : pathname}`, request.url);
-  
+  const redirectUrl = new URL(`/${locale}${pathname}`, request.url);
   return NextResponse.redirect(redirectUrl, 308);
 }
 

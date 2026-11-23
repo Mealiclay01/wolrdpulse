@@ -1,5 +1,15 @@
 import Link from "next/link";
 import { ArrowLeft, Activity } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 Error: Page Not Found | WolrdPulse",
+  description: "The telemetry endpoint or route you requested does not exist.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function NotFound() {
   return (
@@ -17,7 +27,7 @@ export default function NotFound() {
         </div>
         <div>
           <Link
-            href="/"
+            href="/en"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-md transition-all"
           >
             <ArrowLeft size={14} />

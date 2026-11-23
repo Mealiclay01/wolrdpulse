@@ -1,3 +1,4 @@
+import { i18n } from "@/middleware";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -7,9 +8,20 @@ import { getDictionary } from "@/lib/i18n";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getDictionary(locale);
+  const languages: Record<string, string> = {
+    'x-default': 'https://wolrdpulse.app/en/privacy',
+  };
+  i18n.locales.forEach((l: string) => {
+    languages[l] = `https://wolrdpulse.app/${l}/privacy`;
+  });
+
   return {
     title: `${t.privacy?.title || "Privacy Policy"} | WolrdPulse`,
     description: "Privacy policy and data handling transparency for WolrdPulse MCP telemetry server.",
+    alternates: {
+      canonical: `https://wolrdpulse.app/${locale}/privacy`,
+      languages,
+    },
   };
 }
 

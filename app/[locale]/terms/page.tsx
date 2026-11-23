@@ -1,3 +1,4 @@
+import { i18n } from "@/middleware";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -7,9 +8,21 @@ import { getDictionary } from "@/lib/i18n";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getDictionary(locale);
+
+  const languages: Record<string, string> = {
+    'x-default': 'https://wolrdpulse.app/en/terms',
+  };
+  i18n.locales.forEach((l: string) => {
+    languages[l] = `https://wolrdpulse.app/${l}/terms`;
+  });
+
   return {
     title: `${t.terms?.title || "Terms of Service"} | WolrdPulse`,
     description: "Terms of service and API usage policy for WolrdPulse MCP telemetry platform.",
+    alternates: {
+      canonical: `https://wolrdpulse.app/${locale}/terms`,
+      languages,
+    },
   };
 }
 

@@ -11,14 +11,27 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getDictionary(locale);
 
-  const title = `WolrdPulse Features — Cloud Status, DNS, SSL & Edge Latency MCP Tools`;
+  const title = t?.features?.title
+    ? `${t.features.title} | WolrdPulse`
+    : "WolrdPulse Features — Cloud Status, DNS, SSL & Edge Latency MCP Tools";
   const description = t?.features?.subtitle
     || "Explore all DevOps telemetry tools: real-time AWS/Vercel/GitHub outage detection, DNS-over-HTTPS resolver, SSL certificate inspector, and edge latency probes for AI coding agents.";
   const ogImageUrl = "https://wolrdpulse.app/opengraph-image";
 
+  const languages: Record<string, string> = {
+    'x-default': 'https://wolrdpulse.app/en/features',
+  };
+  i18n.locales.forEach((l: string) => {
+    languages[l] = `https://wolrdpulse.app/${l}/features`;
+  });
+
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://wolrdpulse.app/${locale}/features`,
+      languages,
+    },
     openGraph: {
       title,
       description,
@@ -45,5 +58,27 @@ export default async function Page({
 }) {
   const { locale } = await params;
   const t = await getDictionary(locale);
-  return <FeaturesClient t={t} locale={locale} />;
+  const faq = [
+    [t?.features?.faq1Q, t?.features?.faq1A],
+    [t?.features?.faq2Q, t?.features?.faq2A],
+    [t?.features?.faq3Q, t?.features?.faq3A],
+    [t?.features?.faq4Q, t?.features?.faq4A],
+  ].filter((pair) => pair[0] && pair[1]);
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <FeaturesClient t={t} locale={locale} />
+    </>
+  );
 }

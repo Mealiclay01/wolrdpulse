@@ -1,41 +1,38 @@
 import { MetadataRoute } from "next";
-import { i18n } from "../middleware";
+import { i18n } from "@/middleware";
+import { guidePages, integrationPages, statusPages, toolPages } from "@/lib/pseo";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://wolrdpulse.app";
-  const lastModified = new Date();
-  
-  const routes = [
-    { path: "", priority: 1.0, changeFrequency: "daily" as const },
-    { path: "/features", priority: 0.9, changeFrequency: "daily" as const },
-    { path: "/developer", priority: 0.8, changeFrequency: "weekly" as const },
-    { path: "/privacy", priority: 0.3, changeFrequency: "monthly" as const },
-    { path: "/terms", priority: 0.3, changeFrequency: "monthly" as const },
+  const translated = ["", "/features", "/sponsor", "/developer", "/privacy", "/terms"];
+  const englishOnly = [
+    "/tools",
+    "/integrations",
+    "/status",
+    "/guides",
+    ...toolPages.map((page) => `/tools/${page.slug}`),
+    ...integrationPages.map((page) => `/integrations/${page.slug}`),
+    ...statusPages.map((page) => `/status/${page.slug}`),
+    ...guidePages.map((page) => `/guides/${page.slug}`),
   ];
 
-  const sitemapEntries: MetadataRoute.Sitemap = [];
-
-  routes.forEach((route) => {
-    // We add alternates so Google knows about all localized versions of a page
-    const alternates: { languages: Record<string, string> } = { languages: {} };
-    
-    i18n.locales.forEach((locale) => {
-      alternates.languages[locale] = `${baseUrl}/${locale}${route.path}`;
-    });
-    
-    // x-default for unmatched locales
-    alternates.languages['x-default'] = `${baseUrl}${route.path}`;
-
-    i18n.locales.forEach((locale) => {
-      sitemapEntries.push({
-        url: `${baseUrl}/${locale}${route.path}`,
-        lastModified,
-        changeFrequency: route.changeFrequency,
-        priority: route.priority,
-        alternates,
-      });
-    });
+  const entry = (path: string, locale: string, languages: Record<string, string>) => ({
+    url: `${SITE_URL}/${locale}${path}`,
+    lastModified: new Date("2026-11-23"),
+    changeFrequency: path === "" ? "weekly" as const : "monthly" as const,
+    priority: path === "" ? 1 : path.split("/").length > 2 ? 0.7 : 0.8,
+    alternates: { languages },
   });
 
-  return sitemapEntries;
+  const translatedEntries = translated.flatMap((path) => {
+    const languages: Record<string, string> = { "x-default": `${SITE_URL}/en${path}` };
+    for (const locale of i18n.locales) languages[locale] = `${SITE_URL}/${locale}${path}`;
+    return i18n.locales.map((locale) => entry(path, locale, languages));
+  });
+
+  const englishEntries = englishOnly.map((path) =>
+    entry(path, "en", { en: `${SITE_URL}/en${path}`, "x-default": `${SITE_URL}/en${path}` }),
+  );
+
+  return [...translatedEntries, ...englishEntries];
 }

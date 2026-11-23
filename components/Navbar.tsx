@@ -32,6 +32,12 @@ export default function Navbar({ onConnectClick, showBackToHome, t, locale }: Na
             >
               {t?.features || "Features"}
             </Link>
+            <Link
+              href="/en/tools"
+              className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            >
+              Tools
+            </Link>
             <Link 
               href={`/${locale}/developer`} 
               className="px-3 py-1.5 rounded-md hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors flex items-center gap-1"

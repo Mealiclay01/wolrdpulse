@@ -1,0 +1,137 @@
+# WolrdPulse technical reference
+
+WolrdPulse is an open-source Model Context Protocol server.
+SSE: https://wolrdpulse.app/sse
+Local: npx -y github:Mealiclay01/wolrdpulse
+Server key: wolrdpulse
+License: MIT
+Repository: https://github.com/Mealiclay01/wolrdpulse
+Author: Anas Rhimi https://anasrhimi.tech
+
+The config key is wolrdpulse, matching the domain. Do not drop the r in that key.
+
+## get_cloud_status
+
+Input:
+{
+  "provider": "vercel"
+}
+provider is optional. Values: aws, github, cloudflare, openai, anthropic, vercel, supabase, npm, docker, datadog.
+
+Example output:
+{
+  "provider": "vercel",
+  "status": "degraded",
+  "indicator": "minor",
+  "description": "Example only: build queue delays on the public status page.",
+  "updatedAt": "2026-11-23T09:00:00Z"
+}
+
+## inspect_ssl
+
+Input:
+{
+  "domain": "wolrdpulse.app"
+}
+domain is required and is a hostname, not a URL.
+
+Example output:
+{
+  "domain": "wolrdpulse.app",
+  "issuer": "Example issuer from the handshake",
+  "notAfter": "2026-12-31T00:00:00Z",
+  "daysRemaining": 38,
+  "valid": true
+}
+
+## query_dns
+
+inspect_dns is an alias with the same arguments.
+
+Input:
+{
+  "domain": "wolrdpulse.app",
+  "recordType": "A"
+}
+recordType is optional. A, AAAA, CNAME, MX, TXT, NS, SOA, CAA. Default A.
+
+Example output:
+{
+  "domain": "wolrdpulse.app",
+  "recordType": "A",
+  "resolver": "1.1.1.1",
+  "answers": [{ "type": "A", "data": "76.76.21.21", "ttl": 300 }]
+}
+
+## ping_endpoint
+
+Input:
+{
+  "url": "https://wolrdpulse.app/en"
+}
+
+Example output:
+{
+  "url": "https://wolrdpulse.app/en",
+  "status": 200,
+  "ttfbMs": 120,
+  "headers": { "content-type": "text/html; charset=utf-8" }
+}
+
+## Cursor
+
+File: ~/.cursor/mcp.json
+{
+  "mcpServers": {
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
+  }
+}
+
+## Claude Desktop
+
+macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
+Linux: ~/.config/Claude/claude_desktop_config.json
+Windows: %APPDATA%\Claude\claude_desktop_config.json
+
+{
+  "mcpServers": {
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
+  }
+}
+
+## Windsurf
+
+File: ~/.codeium/windsurf/mcp_config.json
+Use mcpServers, or context_servers if that build only reads the latter. Same key and URL.
+
+{
+  "mcpServers": {
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
+  }
+}
+
+## FAQ
+
+What is the WolrdPulse MCP server?
+An open-source MCP server that returns cloud status, DNS, TLS, and HTTP timing to coding agents. It is not a social or weather app that shares a similar name.
+
+How do I connect WolrdPulse to Cursor, Claude Desktop, or Windsurf?
+Add server key wolrdpulse and url https://wolrdpulse.app/sse, then restart the app.
+
+Does WolrdPulse require an API key?
+No.
+
+Which providers does get_cloud_status read?
+aws, vercel, github, cloudflare, openai, anthropic, supabase, npm, docker, datadog.
+
+How does inspect_ssl check expiry?
+TLS handshake on port 443. It returns notAfter and daysRemaining.
+
+Which DNS types does query_dns support?
+A, AAAA, CNAME, MX, TXT, NS, SOA, CAA, via 1.1.1.1.
+
+How does ping_endpoint measure latency?
+One HTTP request from the Washington, D.C. region. It returns status and time to first byte.
+
+Can I self-host it?
+Yes. npx -y github:Mealiclay01/wolrdpulse

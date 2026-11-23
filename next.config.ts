@@ -2,6 +2,22 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.wolrdpulse.app" }],
+        destination: "https://wolrdpulse.app/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.wolrdpulse.app" }],
+        destination: "https://wolrdpulse.app/:path*",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "2mb",

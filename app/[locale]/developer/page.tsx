@@ -1,3 +1,4 @@
+import { i18n } from "@/middleware";
 import React from "react";
 import Navbar from "@/components/Navbar";
 import BrandLogo from "@/components/BrandLogo";
@@ -23,9 +24,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const title = t.developer?.title || "Anas Rhimi — Developer & Creator of WolrdPulse MCP Server";
   const description = t.developer?.description || "DevOps & Cloud Engineer behind WolrdPulse, an open-source MCP telemetry server for AI coding agents. Learn about the architecture, stack, and sponsor the project.";
   const ogImageUrl = "https://wolrdpulse.app/opengraph-image";
+  
+  const languages: Record<string, string> = {
+    'x-default': 'https://wolrdpulse.app/en/developer',
+  };
+  i18n.locales.forEach((l: string) => {
+    languages[l] = `https://wolrdpulse.app/${l}/developer`;
+  });
+
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://wolrdpulse.app/${locale}/developer`,
+      languages,
+    },
     openGraph: {
       title,
       description,

@@ -1,70 +1,85 @@
-# WolrdPulse (`wolrdpulse.app`)
+# WolrdPulse — Open-Source Cloud Status, DNS, SSL & Edge Ping MCP Server
 
-**WolrdPulse** is a real-time DevOps health dashboard, edge diagnostics utility, and remote **Model Context Protocol (MCP)** server built for developers, DevOps engineers, and AI coding assistants (Claude Desktop, Cursor, Antigravity, Zed).
+WolrdPulse is an open-source Model Context Protocol server for coding agents. The live site is [https://wolrdpulse.app/en](https://wolrdpulse.app/en). It returns AWS, Vercel, and GitHub outage status, DNS-over-HTTPS answers, TLS certificate details, and HTTP edge timing. It is not the World Pulse social network and not the WorldPulse weather product.
 
-Designed to run **100% on free-tier infrastructure ($0/month)** via Vercel Serverless, Cloudflare DNS-over-HTTPS, and public status feeds.
+Author: [Anas Rhimi](https://anasrhimi.tech). License: MIT.
 
----
+## Quick start
 
-## 🌟 Features
+Hosted SSE, no API key:
 
-- ⚡ **Remote MCP Server (`/sse` & `/api/mcp`)**: Connect Cursor, Claude Desktop, or Antigravity with 1 line of configuration.
-- 📡 **Global Cloud & API Status Radar**: Live status and incident detection for AWS, GitHub, Cloudflare, OpenAI, Anthropic, Vercel, Supabase, NPM, and Docker Hub.
-- 🌐 **Edge Latency & TTFB Pinger**: Measure response times, HTTP status codes, and inspect headers.
-- 🔍 **Live DNS-over-HTTPS (DoH)**: Query A, AAAA, CNAME, MX, TXT, and NS records via Cloudflare 1.1.1.1.
-- 🚀 **Framework Release Pulse**: Real-time tracker for major open-source releases (Kubernetes, Docker, Bun, Next.js, Go, Rust).
-
----
-
-## 🔌 Connecting to AI Agents via MCP
-
-### Cursor (`.cursor/mcp.json`)
 ```json
 {
   "mcpServers": {
-    "worldpulse": {
+    "wolrdpulse": {
       "url": "https://wolrdpulse.app/sse"
     }
   }
 }
 ```
 
-### Claude Desktop (`claude_desktop_config.json`)
+Local stdio:
+
+```bash
+npx -y github:Mealiclay01/wolrdpulse
+```
+
+## Tools
+
+| Tool | What it checks | Inputs |
+| --- | --- | --- |
+| `get_cloud_status` | Public outage feeds | `provider?` |
+| `inspect_ssl` | TLS certificate on port 443 | `domain` |
+| `query_dns` | DNS-over-HTTPS via 1.1.1.1 (`inspect_dns` is an alias) | `domain`, `recordType?` |
+| `ping_endpoint` | HTTP status and time to first byte | `url` |
+
+## Cursor
+
+File: `~/.cursor/mcp.json` (or `.cursor/mcp.json` in the project). Windows: `%USERPROFILE%\.cursor\mcp.json`.
+
 ```json
 {
   "mcpServers": {
-    "worldpulse": {
-      "url": "https://wolrdpulse.app/sse"
-    }
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
   }
 }
 ```
 
----
+## Claude Desktop
 
-## 🛠️ MCP Tools Provided
+macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+Linux: `~/.config/Claude/claude_desktop_config.json`  
+Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-1. `get_cloud_status(provider?)`: Live operational status and active incidents.
-2. `ping_endpoint(url)`: Time to First Byte (TTFB) and HTTP response headers.
-3. `inspect_dns(domain, recordType?)`: Cloudflare DoH resolution.
-4. `get_tech_pulse()`: Latest releases and trending repositories.
+```json
+{
+  "mcpServers": {
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
+  }
+}
+```
 
----
+## Windsurf
 
-## 🚀 Local Development
+File: `~/.codeium/windsurf/mcp_config.json`. Use `context_servers` instead of `mcpServers` only if that build reads the former. Keep the key `wolrdpulse`.
+
+```json
+{
+  "mcpServers": {
+    "wolrdpulse": { "url": "https://wolrdpulse.app/sse" }
+  }
+}
+```
+
+## Develop
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Suggested GitHub topics
 
----
+`mcp`, `mcp-server`, `model-context-protocol`, `devops`, `cloud-status`, `dns`, `ssl`, `cursor`, `claude`, `windsurf`, `ai-agents`
 
-## ☁️ Deploying to Vercel (100% Free)
-
-1. Push this repository to GitHub.
-2. Import the project into [Vercel](https://vercel.com).
-3. Assign your custom domain `wolrdpulse.app`.
-4. Deploy! Zero environment variables required.
+Directory submission copy lives in `docs/distribution-checklist.md`.
