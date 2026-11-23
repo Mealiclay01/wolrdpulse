@@ -1,0 +1,8 @@
+# GitHub uses this file when it draws the Contributors sidebar.
+# The closed Dependabot pull requests still store commits that say
+# Co-authored-by: Cursor <cursoragent@cursor.com>. Those refs are read-only.
+# Map that identity to the repository owner so it is not a second contributor.
+Mealiclay01 <contact@anasrhimi.tech> Cursor <cursoragent@cursor.com>
+Mealiclay01 <contact@anasrhimi.tech> Cursor Agent <cursoragent@cursor.com>
+Mealiclay01 <contact@anasrhimi.tech> cursoragent <cursoragent@cursor.com>
+Mealiclay01 <contact@anasrhimi.tech> <cursoragent@cursor.com>
