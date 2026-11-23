@@ -67,12 +67,38 @@ const DNS_STATUS_MAP: Record<number, string> = {
 };
 
 /**
+ * Safely extracts and sanitizes domain names without regular expression backtracking (ReDoS safe).
+ */
+export function sanitizeDomain(input: string): string {
+  let cleaned = input.trim().toLowerCase();
+  if (cleaned.startsWith("http://")) {
+    cleaned = cleaned.slice(7);
+  } else if (cleaned.startsWith("https://")) {
+    cleaned = cleaned.slice(8);
+  }
+  const slashIdx = cleaned.indexOf("/");
+  if (slashIdx !== -1) {
+    cleaned = cleaned.substring(0, slashIdx);
+  }
+  const colonIdx = cleaned.indexOf(":");
+  if (colonIdx !== -1) {
+    cleaned = cleaned.substring(0, colonIdx);
+  }
+  return cleaned.trim();
+}
+
+/**
  * Validates whether a hostname is blocked to prevent Server-Side Request Forgery (SSRF)
  * Blocks localhost, loopbacks (127.0.0.0/8), cloud metadata (169.254.169.254),
- * and private RFC 1918 networks.
+ * private RFC 1918 networks, and local/internal domain extensions.
  */
 export function isBlockedHost(host: string): boolean {
-  const normalized = host.toLowerCase().trim().replace(/:\d+$/, "");
+  const normalized = host.toLowerCase().trim();
+
+  // Invalid characters or empty
+  if (!normalized || /[^a-zA-Z0-9.-]/.test(normalized)) {
+    return true;
+  }
 
   // Localhost & loopbacks
   if (
@@ -85,7 +111,7 @@ export function isBlockedHost(host: string): boolean {
     return true;
   }
 
-  // AWS, GCP, Azure link-local metadata IP
+  // Cloud provider link-local metadata IP
   if (normalized === "169.254.169.254" || normalized.startsWith("169.254.")) {
     return true;
   }
@@ -104,7 +130,9 @@ export function isBlockedHost(host: string): boolean {
     normalized.endsWith(".local") ||
     normalized.endsWith(".internal") ||
     normalized.endsWith(".lan") ||
-    normalized.endsWith(".home")
+    normalized.endsWith(".home") ||
+    normalized.endsWith(".corp") ||
+    normalized.endsWith(".arpa")
   ) {
     return true;
   }
@@ -113,30 +141,37 @@ export function isBlockedHost(host: string): boolean {
 }
 
 export async function pingEndpoint(rawUrl: string): Promise<PingResult> {
-  let targetUrl = rawUrl.trim();
-  if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://")) {
-    targetUrl = `https://${targetUrl}`;
+  let targetInput = rawUrl.trim();
+  if (!targetInput.startsWith("http://") && !targetInput.startsWith("https://")) {
+    targetInput = `https://${targetInput}`;
   }
 
+  let validatedUrl: URL;
   try {
-    const parsed = new URL(targetUrl);
-    if (isBlockedHost(parsed.hostname)) {
-      throw new Error(`Target host "${parsed.hostname}" is restricted (SSRF protection policy).`);
-    }
-  } catch (err: any) {
-    if (err.message?.includes("SSRF protection")) throw err;
+    validatedUrl = new URL(targetInput);
+  } catch {
     throw new Error(`Invalid target URL provided: ${rawUrl}`);
   }
 
+  if (validatedUrl.protocol !== "http:" && validatedUrl.protocol !== "https:") {
+    throw new Error(`Invalid protocol "${validatedUrl.protocol}". Only HTTP and HTTPS are allowed.`);
+  }
+
+  if (isBlockedHost(validatedUrl.hostname)) {
+    throw new Error(`Target host "${validatedUrl.hostname}" is restricted (SSRF protection policy).`);
+  }
+
+  const safeUrlString = `${validatedUrl.protocol}//${validatedUrl.host}${validatedUrl.pathname}${validatedUrl.search}`;
   const startTime = performance.now();
+
   try {
-    const response = await fetch(targetUrl, {
+    const response = await fetch(safeUrlString, {
       method: "GET",
       headers: {
         "User-Agent": "WolrdPulse-Agent/1.0 (+https://wolrdpulse.app)",
         Accept: "*/*",
       },
-      redirect: "follow",
+      redirect: "manual",
       signal: AbortSignal.timeout(8000),
     });
 
@@ -151,6 +186,7 @@ export async function pingEndpoint(rawUrl: string): Promise<PingResult> {
       "x-vercel-id",
       "cache-control",
       "strict-transport-security",
+      "location",
     ];
 
     keys.forEach((k) => {
@@ -158,20 +194,22 @@ export async function pingEndpoint(rawUrl: string): Promise<PingResult> {
       if (v) importantHeaders[k] = v;
     });
 
+    const isRedirect = response.status >= 300 && response.status < 400;
+
     return {
-      url: targetUrl,
+      url: safeUrlString,
       statusCode: response.status,
       statusText: response.statusText,
-      isOk: response.ok,
+      isOk: response.ok || isRedirect,
       totalTimeMs,
       headers: importantHeaders,
-      redirectCount: response.redirected ? 1 : 0,
+      redirectCount: isRedirect ? 1 : 0,
       timestamp: new Date().toISOString(),
     };
   } catch (error: any) {
     const totalTimeMs = Math.round(performance.now() - startTime);
     return {
-      url: targetUrl,
+      url: safeUrlString,
       statusCode: 0,
       statusText: error.message || "Connection Failed",
       isOk: false,
@@ -187,10 +225,7 @@ export async function inspectDns(
   domain: string,
   recordType: string = "A"
 ): Promise<DnsResult> {
-  const cleanDomain = domain
-    .replace(/^https?:\/\//i, "")
-    .replace(/\/.*$/, "")
-    .trim();
+  const cleanDomain = sanitizeDomain(domain);
 
   if (isBlockedHost(cleanDomain)) {
     throw new Error(`Domain "${cleanDomain}" is restricted from public DNS querying.`);
@@ -199,18 +234,16 @@ export async function inspectDns(
   const type = recordType.toUpperCase();
   const startTime = performance.now();
 
-  const res = await fetch(
-    `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(
-      cleanDomain
-    )}&type=${encodeURIComponent(type)}`,
-    {
-      headers: {
-        Accept: "application/dns-json",
-      },
-      next: { revalidate: 15 },
-      signal: AbortSignal.timeout(5000),
-    }
-  );
+  const safeDohUrl = new URL("https://cloudflare-dns.com/dns-query");
+  safeDohUrl.searchParams.set("name", cleanDomain);
+  safeDohUrl.searchParams.set("type", type);
+
+  const res = await fetch(safeDohUrl.toString(), {
+    headers: {
+      Accept: "application/dns-json",
+    },
+    next: { revalidate: 15 },
+  });
 
   const rawResponseTimeMs = Math.round(performance.now() - startTime);
   if (!res.ok) {
@@ -243,10 +276,7 @@ export async function inspectDns(
 }
 
 export async function inspectSslCertificate(domain: string): Promise<SslResult> {
-  const cleanDomain = domain
-    .replace(/^https?:\/\//i, "")
-    .replace(/\/.*$/, "")
-    .trim();
+  const cleanDomain = sanitizeDomain(domain);
 
   if (isBlockedHost(cleanDomain)) {
     throw new Error(`Host "${cleanDomain}" is restricted from TLS probing.`);

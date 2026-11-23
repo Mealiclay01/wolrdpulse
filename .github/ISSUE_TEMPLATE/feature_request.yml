@@ -1,0 +1,30 @@
+name: Feature Request
+description: Suggest an idea, new cloud provider, or MCP tool capability for WolrdPulse
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest an improvement or new feature for WolrdPulse.
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Problem or use case
+      description: Is your feature request related to a problem or new use case?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution or new MCP tool / parameter you would like.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+    validations:
+      required: false

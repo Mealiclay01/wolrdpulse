@@ -30,14 +30,28 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "get_cloud_status",
         description:
-          "Get real-time operational status and incidents for AWS, Vercel, GitHub, Cloudflare, OpenAI, Anthropic, Supabase, NPM, and Datadog.",
+          "Retrieve real-time operational status, incident summaries, and latency metrics across major developer and cloud infrastructure providers (AWS, GitHub, Cloudflare, OpenAI, Anthropic, Vercel, Supabase, NPM, Discord, Reddit, and Datadog). Returns overall health state, individual component statuses, and active incident details.",
         inputSchema: {
           type: "object",
           properties: {
             provider: {
               type: "string",
               description:
-                "Optional provider filter: 'aws', 'github', 'cloudflare', 'openai', 'anthropic', 'vercel', 'supabase', 'npm', 'discord', 'reddit', 'datadog'.",
+                "Optional identifier of a single cloud or developer platform to query. If omitted, returns real-time status across all 11 monitored providers.",
+              enum: [
+                "aws",
+                "github",
+                "cloudflare",
+                "openai",
+                "anthropic",
+                "vercel",
+                "supabase",
+                "npm",
+                "discord",
+                "reddit",
+                "datadog",
+              ],
+              examples: ["github", "aws", "openai", "vercel"],
             },
           },
         },
@@ -45,13 +59,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "inspect_ssl",
         description:
-          "Inspects TLS certificate expiration, issuer, validity, and fingerprint for any domain.",
+          "Connects securely via TLS socket to inspect an endpoint's SSL/TLS certificate chain. Returns certificate validity, exact expiration date, remaining valid days, issuer organization, subject common name, SHA-256 fingerprint, and serial number.",
         inputSchema: {
           type: "object",
           properties: {
             domain: {
               type: "string",
-              description: "The hostname or domain to inspect (e.g. api.github.com)",
+              description:
+                "Fully qualified domain name (FQDN) or hostname to probe for TLS certificate details (e.g. 'api.github.com' or 'wolrdpulse.app'). Do not include protocol prefixes.",
+              minLength: 3,
+              pattern: "^[a-zA-Z0-9.-]+$",
+              examples: ["api.github.com", "wolrdpulse.app", "openai.com"],
             },
           },
           required: ["domain"],
@@ -60,17 +78,52 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "query_dns",
         description:
-          "Queries Cloudflare DNS-over-HTTPS (1.1.1.1) for A, AAAA, CNAME, MX, TXT, NS records.",
+          "Performs live DNS resolution queries using Cloudflare DNS-over-HTTPS (DoH 1.1.1.1). Resolves standard DNS Resource Record types (A, AAAA, CNAME, MX, TXT, NS, SOA, CAA) and returns authoritative answers, TTL values, and resolution latency.",
         inputSchema: {
           type: "object",
           properties: {
             domain: {
               type: "string",
-              description: "The domain name to query (e.g. wolrdpulse.app)",
+              description:
+                "The target domain name or hostname to query via DNS-over-HTTPS.",
+              minLength: 3,
+              pattern: "^[a-zA-Z0-9.-]+$",
+              examples: ["wolrdpulse.app", "github.com", "vercel.com"],
             },
             recordType: {
               type: "string",
-              description: "Record type: A, AAAA, CNAME, MX, TXT, NS. Defaults to 'A'.",
+              description:
+                "The DNS Resource Record type to query. Defaults to 'A'.",
+              enum: ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "SOA", "CAA"],
+              default: "A",
+              examples: ["A", "CNAME", "MX", "TXT"],
+            },
+          },
+          required: ["domain"],
+        },
+      },
+      {
+        name: "inspect_dns",
+        description:
+          "Alias for query_dns. Resolves live DNS records via Cloudflare DNS-over-HTTPS (1.1.1.1) to diagnose domain propagation, mail exchange routing, or ownership verification records.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            domain: {
+              type: "string",
+              description:
+                "The target domain name or hostname to query via DNS-over-HTTPS.",
+              minLength: 3,
+              pattern: "^[a-zA-Z0-9.-]+$",
+              examples: ["wolrdpulse.app", "github.com", "vercel.com"],
+            },
+            recordType: {
+              type: "string",
+              description:
+                "The DNS Resource Record type to query. Defaults to 'A'.",
+              enum: ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "SOA", "CAA"],
+              default: "A",
+              examples: ["A", "CNAME", "MX", "TXT"],
             },
           },
           required: ["domain"],
@@ -79,13 +132,21 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "ping_endpoint",
         description:
-          "Measures TTFB response time, status code, and headers for any public HTTP/HTTPS endpoint.",
+          "Pings a public HTTP or HTTPS web service or API endpoint to measure Time-To-First-Byte (TTFB) latency, HTTP response status code, status message, and inspect diagnostic HTTP headers (Cloudflare ray, server, cache-control, HSTS).",
         inputSchema: {
           type: "object",
           properties: {
             url: {
               type: "string",
-              description: "Target URL to ping (e.g. https://api.github.com)",
+              format: "uri",
+              description:
+                "The full HTTP or HTTPS URL to ping (e.g. 'https://api.github.com' or 'https://wolrdpulse.app').",
+              minLength: 8,
+              examples: [
+                "https://api.github.com",
+                "https://wolrdpulse.app",
+                "https://api.openai.com/v1/models",
+              ],
             },
           },
           required: ["url"],
@@ -94,10 +155,27 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "get_tech_pulse",
         description:
-          "Fetches latest framework releases (Kubernetes, Docker, Next.js, Rust, Go) and trending repositories.",
+          "Fetches real-time developer ecosystem intelligence: latest stable releases of major infrastructure software and developer tools (Kubernetes, Docker, Bun, Next.js, Go, Rust), alongside trending developer repositories on GitHub.",
         inputSchema: {
           type: "object",
-          properties: {},
+          properties: {
+            category: {
+              type: "string",
+              description:
+                "Filter technology pulse data by category. Choose 'all' for complete release and trending digest, 'releases' for software version updates, or 'trending' for developer repositories.",
+              enum: ["all", "releases", "trending"],
+              default: "all",
+              examples: ["all", "releases", "trending"],
+            },
+            limit: {
+              type: "integer",
+              description: "Maximum number of items to return in the feed.",
+              minimum: 1,
+              maximum: 50,
+              default: 10,
+              examples: [5, 10, 20],
+            },
+          },
         },
       },
     ],
@@ -150,10 +228,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === "get_tech_pulse") {
+      const category = args?.category || "all";
+      const limit = typeof args?.limit === "number" ? args.limit : 10;
       const res = await fetch(`${BASE_API_URL}/api/pulse`);
       const data = await res.json();
+      const resultData = {};
+      if (category === "all" || category === "releases") {
+        resultData.releases = (data.releases || []).slice(0, limit);
+      }
+      if (category === "all" || category === "trending") {
+        resultData.trending = (data.trending || []).slice(0, limit);
+      }
       return {
-        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+        content: [{ type: "text", text: JSON.stringify(resultData, null, 2) }],
       };
     }
 

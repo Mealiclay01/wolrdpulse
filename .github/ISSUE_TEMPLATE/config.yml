@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: WolrdPulse Web Dashboard
+    url: https://wolrdpulse.app
+    about: Visit the live web dashboard for real-time cloud and DevOps status.

@@ -12,14 +12,28 @@ const MCP_TOOLS = [
   {
     name: "get_cloud_status",
     description:
-      "Get real-time operational status, latency, and incident reports for major cloud and developer platforms (AWS, Cloudflare, GitHub, OpenAI, Anthropic, Vercel, Supabase, NPM, Discord, Reddit, Datadog)",
+      "Retrieve real-time operational status, incident summaries, and latency metrics across major developer and cloud infrastructure providers (AWS, GitHub, Cloudflare, OpenAI, Anthropic, Vercel, Supabase, NPM, Discord, Reddit, and Datadog). Returns overall health state, individual component statuses, and active incident details.",
     inputSchema: {
       type: "object",
       properties: {
         provider: {
           type: "string",
           description:
-            "Optional provider filter: 'aws', 'github', 'cloudflare', 'openai', 'anthropic', 'vercel', 'supabase', 'npm', 'discord', 'reddit', 'datadog'. If omitted, returns all providers.",
+            "Optional identifier of a single cloud or developer platform to query. If omitted, returns real-time status across all 11 monitored providers.",
+          enum: [
+            "aws",
+            "github",
+            "cloudflare",
+            "openai",
+            "anthropic",
+            "vercel",
+            "supabase",
+            "npm",
+            "discord",
+            "reddit",
+            "datadog",
+          ],
+          examples: ["github", "aws", "openai", "vercel"],
         },
       },
     },
@@ -27,13 +41,17 @@ const MCP_TOOLS = [
   {
     name: "inspect_ssl",
     description:
-      "Connects directly via TLS socket to inspect domain SSL/TLS certificate chains, issuer, fingerprint, expiration date, and remaining valid days",
+      "Connects securely via TLS socket to inspect an endpoint's SSL/TLS certificate chain. Returns certificate validity, exact expiration date, remaining valid days, issuer organization, subject common name, SHA-256 fingerprint, and serial number.",
     inputSchema: {
       type: "object",
       properties: {
         domain: {
           type: "string",
-          description: "Target domain name or hostname (e.g. api.github.com)",
+          description:
+            "Fully qualified domain name (FQDN) or hostname to probe for TLS certificate details (e.g. 'api.github.com' or 'wolrdpulse.app'). Do not include protocol prefixes.",
+          minLength: 3,
+          pattern: "^[a-zA-Z0-9.-]+$",
+          examples: ["api.github.com", "wolrdpulse.app", "openai.com"],
         },
       },
       required: ["domain"],
@@ -42,17 +60,25 @@ const MCP_TOOLS = [
   {
     name: "query_dns",
     description:
-      "Performs live DNS resolution queries using Cloudflare DNS-over-HTTPS (DoH) for records like A, AAAA, CNAME, MX, TXT, NS, CAA",
+      "Performs live DNS resolution queries using Cloudflare DNS-over-HTTPS (DoH 1.1.1.1). Resolves standard DNS Resource Record types (A, AAAA, CNAME, MX, TXT, NS, SOA, CAA) and returns authoritative answers, TTL values, and resolution latency.",
     inputSchema: {
       type: "object",
       properties: {
         domain: {
           type: "string",
-          description: "The domain name to inspect (e.g. wolrdpulse.app)",
+          description:
+            "The target domain name or hostname to query via DNS-over-HTTPS.",
+          minLength: 3,
+          pattern: "^[a-zA-Z0-9.-]+$",
+          examples: ["wolrdpulse.app", "github.com", "vercel.com"],
         },
         recordType: {
           type: "string",
-          description: "DNS Record Type: A, AAAA, CNAME, MX, TXT, NS, SOA, CAA. Defaults to 'A'.",
+          description:
+            "The DNS Resource Record type to query. Defaults to 'A'.",
+          enum: ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "SOA", "CAA"],
+          default: "A",
+          examples: ["A", "CNAME", "MX", "TXT"],
         },
       },
       required: ["domain"],
@@ -61,17 +87,25 @@ const MCP_TOOLS = [
   {
     name: "inspect_dns",
     description:
-      "Alias for query_dns. Performs live DNS-over-HTTPS queries via Cloudflare 1.1.1.1",
+      "Alias for query_dns. Resolves live DNS records via Cloudflare DNS-over-HTTPS (1.1.1.1) to diagnose domain propagation, mail exchange routing, or ownership verification records.",
     inputSchema: {
       type: "object",
       properties: {
         domain: {
           type: "string",
-          description: "The domain name to inspect (e.g. wolrdpulse.app)",
+          description:
+            "The target domain name or hostname to query via DNS-over-HTTPS.",
+          minLength: 3,
+          pattern: "^[a-zA-Z0-9.-]+$",
+          examples: ["wolrdpulse.app", "github.com", "vercel.com"],
         },
         recordType: {
           type: "string",
-          description: "DNS Record Type: A, AAAA, CNAME, MX, TXT, NS, SOA. Defaults to 'A'.",
+          description:
+            "The DNS Resource Record type to query. Defaults to 'A'.",
+          enum: ["A", "AAAA", "CNAME", "MX", "TXT", "NS", "SOA", "CAA"],
+          default: "A",
+          examples: ["A", "CNAME", "MX", "TXT"],
         },
       },
       required: ["domain"],
@@ -80,13 +114,21 @@ const MCP_TOOLS = [
   {
     name: "ping_endpoint",
     description:
-      "Ping any HTTP/HTTPS URL or API endpoint to measure response time (TTFB), HTTP status code, and inspect headers",
+      "Pings a public HTTP or HTTPS web service or API endpoint to measure Time-To-First-Byte (TTFB) latency, HTTP response status code, status message, and inspect diagnostic HTTP headers (Cloudflare ray, server, cache-control, HSTS).",
     inputSchema: {
       type: "object",
       properties: {
         url: {
           type: "string",
-          description: "Target URL or hostname to ping (e.g. https://api.github.com)",
+          format: "uri",
+          description:
+            "The full HTTP or HTTPS URL to ping (e.g. 'https://api.github.com' or 'https://wolrdpulse.app').",
+          minLength: 8,
+          examples: [
+            "https://api.github.com",
+            "https://wolrdpulse.app",
+            "https://api.openai.com/v1/models",
+          ],
         },
       },
       required: ["url"],
@@ -95,10 +137,27 @@ const MCP_TOOLS = [
   {
     name: "get_tech_pulse",
     description:
-      "Returns the latest major open-source releases (Kubernetes, Docker, Bun, Next.js, Go, Rust) and trending developer repositories",
+      "Fetches real-time developer ecosystem intelligence: latest stable releases of major infrastructure software and developer tools (Kubernetes, Docker, Bun, Next.js, Go, Rust), alongside trending developer repositories on GitHub.",
     inputSchema: {
       type: "object",
-      properties: {},
+      properties: {
+        category: {
+          type: "string",
+          description:
+            "Filter technology pulse data by category. Choose 'all' for complete release and trending digest, 'releases' for software version updates, or 'trending' for developer repositories.",
+          enum: ["all", "releases", "trending"],
+          default: "all",
+          examples: ["all", "releases", "trending"],
+        },
+        limit: {
+          type: "integer",
+          description: "Maximum number of items to return in the feed.",
+          minimum: 1,
+          maximum: 50,
+          default: 10,
+          examples: [5, 10, 20],
+        },
+      },
     },
   },
 ];
@@ -245,10 +304,31 @@ async function handleRpcRequest(body: any) {
         }
 
         if (toolName === "get_tech_pulse") {
-          const [releases, trending] = await Promise.all([
-            fetchLatestReleases(),
-            fetchTrendingTopics(),
-          ]);
+          const category = toolArgs.category || "all";
+          const limit =
+            typeof toolArgs.limit === "number"
+              ? Math.max(1, Math.min(50, toolArgs.limit))
+              : 10;
+
+          let releases: any[] = [];
+          let trending: any[] = [];
+
+          if (category === "all" || category === "releases") {
+            const relData = await fetchLatestReleases();
+            releases = relData.slice(0, limit);
+          }
+          if (category === "all" || category === "trending") {
+            const trendData = await fetchTrendingTopics();
+            trending = trendData.slice(0, limit);
+          }
+
+          const responseData =
+            category === "releases"
+              ? { releases }
+              : category === "trending"
+              ? { trending }
+              : { releases, trending };
+
           return {
             jsonrpc: "2.0",
             id,
@@ -256,7 +336,7 @@ async function handleRpcRequest(body: any) {
               content: [
                 {
                   type: "text",
-                  text: JSON.stringify({ releases, trending }, null, 2),
+                  text: JSON.stringify(responseData, null, 2),
                 },
               ],
             },
