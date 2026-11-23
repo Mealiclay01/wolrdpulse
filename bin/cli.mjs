@@ -18,6 +18,8 @@ const server = new Server(
     capabilities: {
       tools: {},
     },
+    instructions:
+      "WolrdPulse checks public infrastructure before a coding agent changes a deploy. Call get_cloud_status for AWS, Vercel, or GitHub incidents, inspect_ssl for certificate expiry, query_dns for a DNS-over-HTTPS answer, and ping_endpoint for one HTTP timing sample. No API key. The config key is wolrdpulse.",
   }
 );
 
