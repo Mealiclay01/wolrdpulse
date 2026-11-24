@@ -1,5 +1,7 @@
 # WolrdPulse — Open-Source Cloud Status, DNS, SSL & Edge Ping MCP Server
 
+[![Mealiclay01/wolrdpulse MCP server](https://glama.ai/mcp/servers/Mealiclay01/wolrdpulse/badges/score.svg)](https://glama.ai/mcp/servers/Mealiclay01/wolrdpulse)
+
 WolrdPulse is an open-source Model Context Protocol server for coding agents. The live site is [https://wolrdpulse.app/en](https://wolrdpulse.app/en). It returns AWS, Vercel, and GitHub outage status, DNS-over-HTTPS answers, TLS certificate details, and HTTP edge timing. It is not the World Pulse social network and not the WorldPulse weather product.
 
 Author: [Anas Rhimi](https://anasrhimi.tech). License: MIT.
